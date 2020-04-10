@@ -1,29 +1,29 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	StringTokenizer st;
+		
+		int count = Integer.parseInt(br.readLine());
+		
+		for(int i=0;i<count;i++) {
+			st = new StringTokenizer(br.readLine()," ");
+			
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			
+			bw.write(a+b+"\n");
 
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		
-		int h = Integer.parseInt(st.nextToken());
-		
-		if(h == 0) {
-			h = 24*60;
-		}else {
-			h = h*60;
 		}
-				
-		int m = Integer.parseInt(st.nextToken());
-		
-		int x = (h+m)-45;
-		
-		System.out.println(((x/60 == 24) ? 0 : x/60) + " " + x%60);
-
+		bw.flush();
 	}
 
 }
