@@ -10,12 +10,12 @@ public class Main {
 
 		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int a = Integer.parseInt(st.nextToken());
-		int b = Integer.parseInt(st.nextToken());
-		
-		if(a>b) System.out.println(">");
-		if(a<b) System.out.println("<");
-		if(a==b) System.out.println("==");
+		int year = Integer.parseInt(st.nextToken());
+		if(year%4 == 0 && year%100 != 0 || year%400 == 0) {
+			System.out.println(1);
+		}else {
+			System.out.println(0);
+		}
 		
 	}
 
