@@ -10,13 +10,20 @@ public class Main {
 
 		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int year = Integer.parseInt(st.nextToken());
-		if(year%4 == 0 && year%100 != 0 || year%400 == 0) {
-			System.out.println(1);
-		}else {
-			System.out.println(0);
-		}
+		int h = Integer.parseInt(st.nextToken());
 		
+		if(h == 0) {
+			h = 24*60;
+		}else {
+			h = h*60;
+		}
+				
+		int m = Integer.parseInt(st.nextToken());
+		
+		int x = (h+m)-45;
+		
+		System.out.println(((x/60 == 24) ? 0 : x/60) + " " + x%60);
+
 	}
 
 }
