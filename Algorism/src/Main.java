@@ -8,21 +8,15 @@ public class Main {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int a = Integer.parseInt(br.readLine());
-		int b = Integer.parseInt(br.readLine());
+		int a = Integer.parseInt(st.nextToken());
+		int b = Integer.parseInt(st.nextToken());
 		
-		int c = b;
-	    System.out.println(a*(b%10));
-	    
-	    b = b/10;
-	    System.out.println(a*(b%10));
-	    
-	    b = b/10;
-	    System.out.println(a*(b%10));
-	    
-	    System.out.println(a*c);
+		if(a>b) System.out.println(">");
+		if(a<b) System.out.println("<");
+		if(a==b) System.out.println("==");
+		
 	}
 
 }
