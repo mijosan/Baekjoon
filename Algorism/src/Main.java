@@ -11,16 +11,30 @@ public class Main {
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		StringBuilder sb = new StringBuilder();
 		int n = Integer.parseInt(br.readLine());
-
 		
 		for(int i=0;i<n;i++) {
-			sb.append("*");
+			for(int j=0;j<i;j++) {
+				sb.append(" ");
+			}
+			
+			for(int j=0;j<(2*n-1)-(i*2);j++) {
+				sb.append("*");
+			}
 			System.out.println(sb);
+			sb.delete(0, sb.length());
 		}
 		
-		for(int i=0;i<n;i++) {
-			sb.deleteCharAt(sb.length()-1);
+		for(int i=0;i<n-1;i++) {
+			for(int j=1;j<(n-1)-i;j++) {
+				sb.append(" ");
+			}
+			
+			for(int j=0;j<3+(2*i);j++) {
+				sb.append("*");
+			}
 			System.out.println(sb);
+			sb.delete(0, sb.length());
 		}
+		
 	}
 }
