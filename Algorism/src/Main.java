@@ -11,29 +11,24 @@ public class Main {
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
 		//StringBuilder sb = new StringBuilder();
+
+		int max = Integer.MIN_VALUE;
+		int order = Integer.MIN_VALUE;
 		
-		int n = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		int[] arr = new int[n];
-		
-		for(int i=0;i<n;i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		int max=arr[0];
-		int min=arr[0];
-		
-		for(int i=0;i<n;i++) {
-			if(arr[i] > max) {
-				max = arr[i];
+		for(int i=0;i<9;i++) {
+			
+			int temp = Integer.parseInt(br.readLine());
+			
+			if(temp > max){
+				max = temp;
+				order = i+1;
 			}
 			
-			if(arr[i] < min) {
-				min = arr[i];
-			}
+			
 		}
 		
-		System.out.print(min + " " +max);
+		System.out.println(max);
+		System.out.println(order);
 		
 	}
 }
