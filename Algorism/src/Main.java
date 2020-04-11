@@ -9,32 +9,31 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		StringBuilder sb = new StringBuilder();
+		
+		//StringBuilder sb = new StringBuilder();
+		
 		int n = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		int[] arr = new int[n];
 		
 		for(int i=0;i<n;i++) {
-			for(int j=0;j<i;j++) {
-				sb.append(" ");
-			}
-			
-			for(int j=0;j<(2*n-1)-(i*2);j++) {
-				sb.append("*");
-			}
-			System.out.println(sb);
-			sb.delete(0, sb.length());
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		for(int i=0;i<n-1;i++) {
-			for(int j=1;j<(n-1)-i;j++) {
-				sb.append(" ");
+		int max=arr[0];
+		int min=arr[0];
+		
+		for(int i=0;i<n;i++) {
+			if(arr[i] > max) {
+				max = arr[i];
 			}
 			
-			for(int j=0;j<3+(2*i);j++) {
-				sb.append("*");
+			if(arr[i] < min) {
+				min = arr[i];
 			}
-			System.out.println(sb);
-			sb.delete(0, sb.length());
 		}
+		
+		System.out.print(min + " " +max);
 		
 	}
 }
