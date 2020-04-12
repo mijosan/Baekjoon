@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Main {
 
@@ -9,26 +10,36 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringBuilder sb = new StringBuilder();
 		
-		//StringBuilder sb = new StringBuilder();
+		String s = br.readLine();
 
-		int max = Integer.MIN_VALUE;
-		int order = Integer.MIN_VALUE;
 		
-		for(int i=0;i<9;i++) {
-			
-			int temp = Integer.parseInt(br.readLine());
-			
-			if(temp > max){
-				max = temp;
-				order = i+1;
-			}
-			
-			
+		char[] alpha = new char[26];
+		int[] result = new int[26];
+		
+		for(int i=0;i<alpha.length;i++) {
+			alpha[i] = (char)(97+i);
 		}
 		
-		System.out.println(max);
-		System.out.println(order);
+		for(int i=0;i<result.length;i++) {
+			result[i] = -1;
+		}
+		for(int i=0;i<s.length();i++) {
+			for(int j=0;j<alpha.length;j++) {
+				if(s.charAt(i) == alpha[j]) {
+					if(result[j] == -1) {
+						result[j] = i;
+						break;
+					}
+				}
+			}
+		}
 		
+		for(int a : result) {
+			sb = sb.append(a + " ");
+		}
+		
+		System.out.println(sb.toString().trim());
 	}
 }
