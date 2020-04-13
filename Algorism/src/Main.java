@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 public class Main {
 
@@ -10,36 +9,30 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		StringBuilder sb = new StringBuilder();
+		//StringBuilder sb = new StringBuilder();
 		
 		String s = br.readLine();
-
-		
-		char[] alpha = new char[26];
-		int[] result = new int[26];
-		
-		for(int i=0;i<alpha.length;i++) {
-			alpha[i] = (char)(97+i);
-		}
-		
-		for(int i=0;i<result.length;i++) {
-			result[i] = -1;
-		}
+		int sum = 0;
 		for(int i=0;i<s.length();i++) {
-			for(int j=0;j<alpha.length;j++) {
-				if(s.charAt(i) == alpha[j]) {
-					if(result[j] == -1) {
-						result[j] = i;
-						break;
-					}
-				}
+			if(s.charAt(i) <= 'C') {
+				sum = sum + 3;
+			}else if(s.charAt(i) <= 'F') {
+				sum = sum + 4;
+			}else if(s.charAt(i) <= 'I') {
+				sum = sum + 5;
+			}else if(s.charAt(i) <= 'L') {
+				sum = sum + 6;
+			}else if(s.charAt(i) <= 'O') {
+				sum = sum + 7;
+			}else if(s.charAt(i) <= 'S') {
+				sum = sum + 8;
+			}else if(s.charAt(i) <= 'V') {
+				sum = sum + 9;
+			}else if(s.charAt(i) <= 'Z') {
+				sum = sum + 10;
 			}
 		}
 		
-		for(int a : result) {
-			sb = sb.append(a + " ");
-		}
-		
-		System.out.println(sb.toString().trim());
+		System.out.println(sum);
 	}
 }
