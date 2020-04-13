@@ -11,28 +11,25 @@ public class Main {
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		//StringBuilder sb = new StringBuilder();
 		
-		String s = br.readLine();
-		int sum = 0;
-		for(int i=0;i<s.length();i++) {
-			if(s.charAt(i) <= 'C') {
-				sum = sum + 3;
-			}else if(s.charAt(i) <= 'F') {
-				sum = sum + 4;
-			}else if(s.charAt(i) <= 'I') {
-				sum = sum + 5;
-			}else if(s.charAt(i) <= 'L') {
-				sum = sum + 6;
-			}else if(s.charAt(i) <= 'O') {
-				sum = sum + 7;
-			}else if(s.charAt(i) <= 'S') {
-				sum = sum + 8;
-			}else if(s.charAt(i) <= 'V') {
-				sum = sum + 9;
-			}else if(s.charAt(i) <= 'Z') {
-				sum = sum + 10;
+		int n = Integer.parseInt(br.readLine());
+		int count = 0; // 그룹 아닌 갯수
+		
+		for(int i=0;i<n;i++) {	
+			boolean[] bl = new boolean[27];
+			String s = br.readLine();
+			
+			for(int j=0;j<s.length();j++) {
+
+				if(bl[s.charAt(j)-97] == true) {
+					if(j !=0 && s.charAt(j-1) != s.charAt(j)) {
+						count = count + 1;			
+						break;
+					}
+				}else {
+					bl[s.charAt(j)-97] = true;
+				}		
 			}
 		}
-		
-		System.out.println(sum);
+		System.out.println(n-count);
 	}
 }
