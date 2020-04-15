@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -15,54 +12,49 @@ public class Main {
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		//StringBuilder sb = new StringBuilder();
 		
-		int n = Integer.parseInt(br.readLine());
+		LinkedList<Integer> list = new LinkedList<Integer>();
 		
-		for(int i=0;i<n;i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int count = 0;
+		
+		for(int i=1;i<=n;i++) {
+			list.add(i);
+		}	
+		st = new StringTokenizer(br.readLine()," ");
+		
+		while(st.hasMoreTokens()) {
 			
-			int n2 = Integer.parseInt(st.nextToken()); //문서의 수
-			int location = Integer.parseInt(st.nextToken()); //위치
-			int count = 0; // 몇번째로 출력
+			int target = Integer.parseInt(st.nextToken());
 			
-			Queue<Pair> queue = new LinkedList<Pair>(); // 짝으로 큐에 저장 
-			PriorityQueue<Integer> queue2 = new PriorityQueue(Collections.reverseOrder());//가중치 정렬
+			int front = list.indexOf(target) - list.indexOf(list.peekFirst());
+			int back = list.indexOf(list.peekLast()) - list.indexOf(target);
 
-			StringTokenizer weightList = new StringTokenizer(br.readLine()," ");
-			
-			for(int j=0;j<n2;j++) {
-				int priority = Integer.parseInt(weightList.nextToken());
-				
-				queue.offer(new Pair(j,priority));
-				queue2.offer(priority);
-			}
-			
-			while(!queue.isEmpty()) {
-				Pair pair = queue.poll();
-				if(pair.weight == queue2.peek()) {
-					queue2.poll();
-					count++;
-					if(pair.number == location) {
+			while(true) {
+				if(front <= back) { 
+
+					if(list.peekFirst() == target) {
+						list.pollFirst();
 						break;
+					}else {
+						list.addLast(list.pollFirst());
+						count ++;
 					}
-					
-				}else {
-					queue.offer(pair);
+				}else { 
+					if(list.peekFirst() == target) {
+						list.pollFirst();
+						break;
+					}else {
+						list.addFirst(list.pollLast());
+						count ++;
+					}
 				}
 			}
-			System.out.println(count);
 		}
+		System.out.println(count);
 	}
 }
 
-class Pair{
-	
-	int number;
-	int weight;
-	
-	public Pair(int number, int weight) {
-		this.number = number;
-		this.weight = weight;
-	}
-	
-}
 
