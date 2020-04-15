@@ -1,9 +1,9 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -11,47 +11,58 @@ public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		//StringBuilder sb = new StringBuilder();
 		
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		int n = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
-		Queue<Integer> queue = new LinkedList<Integer>();
-		int[] result = new int[n];
-		int index = 0;
+		int n = Integer.parseInt(br.readLine());
 		
-		for(int i=1;i<=n;i++) {
-			queue.add(i);
-		}
-		
-		while(queue.size() != 0) {
-			for(int i=0;i<k;i++) {
-				if(i == k-1) {
-					result[index] = queue.poll();
-					index++;
+		for(int i=0;i<n;i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine()," ");
+			
+			int n2 = Integer.parseInt(st.nextToken()); //문서의 수
+			int location = Integer.parseInt(st.nextToken()); //위치
+			int count = 0; // 몇번째로 출력
+			
+			Queue<Pair> queue = new LinkedList<Pair>(); // 짝으로 큐에 저장 
+			PriorityQueue<Integer> queue2 = new PriorityQueue(Collections.reverseOrder());//가중치 정렬
+
+			StringTokenizer weightList = new StringTokenizer(br.readLine()," ");
+			
+			for(int j=0;j<n2;j++) {
+				int priority = Integer.parseInt(weightList.nextToken());
+				
+				queue.offer(new Pair(j,priority));
+				queue2.offer(priority);
+			}
+			
+			while(!queue.isEmpty()) {
+				Pair pair = queue.poll();
+				if(pair.weight == queue2.peek()) {
+					queue2.poll();
+					count++;
+					if(pair.number == location) {
+						break;
+					}
+					
 				}else {
-					queue.add(queue.poll());
+					queue.offer(pair);
 				}
 			}
+			System.out.println(count);
 		}
-		
-		for(int i=0;i<result.length;i++) {
-			if(i == 0) {
-				if(result.length == 1) {
-					bw.write("<" + result[i] + ">");
-				}else {
-					bw.write("<" + result[i] + ", ");
-				}
-			}else if(i == result.length-1) {
-				bw.write(result[i] + "");
-				bw.write(">");
-			}else {
-				bw.write(result[i] + ", ");
-			}
-		}
-		bw.flush();	
 	}
+}
+
+class Pair{
+	
+	int number;
+	int weight;
+	
+	public Pair(int number, int weight) {
+		this.number = number;
+		this.weight = weight;
+	}
+	
 }
 
