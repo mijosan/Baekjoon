@@ -1,60 +1,50 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	public static void main(String[] args) throws NumberFormatException, IOException{
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		//StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		//StringBuilder sb = new StringBuilder();
+		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		// StringTokenizer st = new StringTokenizer(br.readLine(),".");
+		// StringBuilder sb = new StringBuilder();
+		// int n = Integer.parseInt(br.readLine());
+
+		//1~1000
+		int n = Integer.parseInt(br.readLine());
 		
-		LinkedList<Integer> list = new LinkedList<Integer>();
-		
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
 		int count = 0;
 		
-		for(int i=1;i<=n;i++) {
-			list.add(i);
-		}	
-		st = new StringTokenizer(br.readLine()," ");
-		
-		while(st.hasMoreTokens()) {
+		if(n < 100) {
+			System.out.println(n);
+		}else if(n == 1000){
+			System.out.println(144);
 			
-			int target = Integer.parseInt(st.nextToken());
-			
-			int front = list.indexOf(target) - list.indexOf(list.peekFirst());
-			int back = list.indexOf(list.peekLast()) - list.indexOf(target);
+		}else {
+			for(int i=100;i<=n;i++) {
+				
+				int temp = i;
+				
+				int[] arr = new int[3];
+				int index = 2;
+				while(temp > 0) {
 
-			while(true) {
-				if(front <= back) { 
-
-					if(list.peekFirst() == target) {
-						list.pollFirst();
-						break;
-					}else {
-						list.addLast(list.pollFirst());
-						count ++;
-					}
-				}else { 
-					if(list.peekFirst() == target) {
-						list.pollFirst();
-						break;
-					}else {
-						list.addFirst(list.pollLast());
-						count ++;
-					}
+					arr[index] = temp % 10;
+					index--;
+					
+					temp = temp/10;
 				}
+				
+				if(arr[1] - arr[0] == arr[2] - arr[1]) {
+					count = count + 1;
+				}
+				
 			}
+			System.out.println(count + 99);
 		}
-		System.out.println(count);
 	}
 }
-
-
