@@ -14,37 +14,35 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
 
-		//1~1000
 		int n = Integer.parseInt(br.readLine());
+		int x = 0;
+		int m = n;
 		
-		int count = 0;
+		int size = 0;
 		
-		if(n < 100) {
-			System.out.println(n);
-		}else if(n == 1000){
-			System.out.println(144);
-			
-		}else {
-			for(int i=100;i<=n;i++) {
-				
-				int temp = i;
-				
-				int[] arr = new int[3];
-				int index = 2;
-				while(temp > 0) {
-
-					arr[index] = temp % 10;
-					index--;
-					
-					temp = temp/10;
-				}
-				
-				if(arr[1] - arr[0] == arr[2] - arr[1]) {
-					count = count + 1;
-				}
-				
-			}
-			System.out.println(count + 99);
+		while(m != 0) {
+			m = m / 10;
+			size = size + 1;
 		}
+		
+		int a = n-(size*9);
+		
+		for(int i=a;i<=n;i++) {
+			int sum = i;
+			int k = i;
+			
+			while(k > 0) {
+				sum = sum + k%10;
+				k = k/10;
+			}
+			
+			if(sum == n) {
+				x = i;
+				break;
+			}
+			
+		}
+		System.out.println(x);
+		
 	}
 }
