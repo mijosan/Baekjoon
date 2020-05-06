@@ -14,35 +14,31 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
 
-		int n = Integer.parseInt(br.readLine());
-		int x = 0;
-		int m = n;
-		
-		int size = 0;
-		
-		while(m != 0) {
-			m = m / 10;
-			size = size + 1;
+		int[] arr = new int[9];
+
+		int sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = Integer.parseInt(br.readLine());
+			sum = sum + arr[i];
 		}
 		
-		int a = n-(size*9);
-		
-		for(int i=a;i<=n;i++) {
-			int sum = i;
-			int k = i;
-			
-			while(k > 0) {
-				sum = sum + k%10;
-				k = k/10;
+		loop:
+		for (int i = 0; i < 9; i++) {
+			for (int j = i + 1; j < 9; j++) {
+				if (sum - (arr[i] + arr[j]) == 100) {
+					arr[i] = 0;
+					arr[j] = 0;
+					break loop;
+				}
 			}
-			
-			if(sum == n) {
-				x = i;
-				break;
-			}
-			
 		}
-		System.out.println(x);
-		
+
+		Arrays.sort(arr);
+	  
+		for(int i=0;i<arr.length;i++) { 
+			if(arr[i] != 0) { 
+				System.out.println(arr[i]);
+			} 
+		}
 	}
 }
