@@ -12,23 +12,28 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int t = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
     	
-    	int[] dp = new int[12];
+    	int[] dp = new int[n+1];
     	
-    	dp[1] = 1;
-    	dp[2] = 2;
-    	dp[3] = 4;
+    	dp[0] = dp[1] = 0;
+
+		for(int i=2;i<=n;i++) {
+
+			
+			dp[i] = dp[i - 1] + 1;
+			
+            if (i % 2 == 0) {
+                dp[i] = Math.min(dp[i], dp[i / 2] + 1);
+            }
+            
+            if (i % 3 == 0) {
+                dp[i] = Math.min(dp[i], dp[i / 3] + 1);
+            }
+		}
+		
+		System.out.println(dp[n]);
     	
-    	for(int i=0;i<t;i++) {
-    		int n = Integer.parseInt(br.readLine());
-    		
-    		for(int j=4;j<=n;j++) {
-    			dp[j] = dp[j-1] + dp[j-2] + dp[j-3];
-    		}
-    		
-    		System.out.println(dp[n]);
-    	}
     }
 
 }
