@@ -13,29 +13,22 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int t = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<t;i++) {
-    		int n = Integer.parseInt(br.readLine());
+    	int[] dp = new int[n+1];
+    	
+    	dp[0] = 1;
+    	dp[1] = 1;
+    	
+    	for(int i=2;i<=n;i++) {
     		
-    		int[][] dp = new int[41][2];
+    		dp[i] = (dp[i-1] + dp[i-2] % 10007);
     		
-    		dp[0][0] = 1;
-    		dp[0][1] = 0;
+    	}
+    	
+    	System.out.println(dp[n]);
+    	
     		
-    		dp[1][0] = 0;
-    		dp[1][1] = 1;
-    				
-    		for(int j=2;j<=n;j++) {
-    			
-    			dp[j][0] = dp[j-1][0] + dp[j-2][0];
-    			
-    			dp[j][1] = dp[j-1][1] + dp[j-2][1];
-    			
-    		}
-    		
-    		System.out.println(dp[n][0] + " " + dp[n][1]);
-    	}  		
     }
 
 }
