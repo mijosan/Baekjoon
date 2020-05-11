@@ -15,29 +15,44 @@ public class Main {
     	
     	int n = Integer.parseInt(br.readLine());
     	
-    	int[] dp = new int[n+1];
-    	int[] map = new int[n+1];
+    	int[][] dp = new int[n+1][n+1];
     	
     	for(int i=1;i<=n;i++) {
-    		map[i] = Integer.parseInt(br.readLine());
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		
+    		for(int j=1;j<=i;j++) {
+    			dp[i][j] = Integer.parseInt(st.nextToken());
+    		}
     	}
     	
-    	
-		dp[1] = map[1];
-		
-		if(n > 1) {
-			dp[2] = map[1]+map[2];
-			
-			if(n > 2) {
-				dp[3] = Math.max(map[1]+map[3], map[2]+map[3]);
-			}
-		}
-    	for(int i=4;i<=n;i++) {
-    		dp[i] = Math.max(dp[i-2], dp[i-3]+map[i-1]) + map[i];
+
+    	if(n >= 2) {
+    		dp[2][1] = dp[1][1] + dp[2][1];
+    		dp[2][2] = dp[1][1] + dp[2][2];
     	}
     	
-    	System.out.println(dp[n]);
+    	for(int i=3;i<=n;i++) {
+    		
+    		dp[i][1] = dp[i-1][1] + dp[i][1];
+    		
+    		for(int j=2;j<i;j++) {
+
+    			dp[i][j] = Math.max(dp[i-1][j-1], dp[i-1][j]) + dp[i][j];
+    			
+    		}
+    		
+    		dp[i][i] = dp[i-1][i-1] + dp[i][i];
+    	}
     	
+    	int max = Integer.MIN_VALUE;
+    	
+    	for(int i=1;i<=n;i++) {
+    		if(max < dp[n][i]) {
+    			max = dp[n][i];
+    		}
+    	}
+    	
+    	System.out.println(max);
     		
     }
 
