@@ -2,10 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-//DP 자체는 이렇게 정의합니다. 주어진 문제를 여러 개의 부분 문제들로 나누어 푼 다음, 그 결과들로 주어진 문제를 푼다.
+//DP : 주어진 문제를 여러 개의 부분 문제들로 나누어 푼 다음, 그 결과들로 주어진 문제를 푼다.
 
 public class Main {
-	
+
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -13,31 +13,41 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
+    	
     	int n = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	Long[] dp = new Long[n+1];
-    	Long[] arr = new Long[n+1];
+    	int[] dp = new int[n+1];
     	
-    	for(int i=1;i<=n;i++) {
-    		arr[i] = Long.parseLong(br.readLine());
+
+    	
+    	for(int i=0;i<n;i++) {
+    		dp[i] = Integer.parseInt(st.nextToken());
     	}
     	
-    	if(n >= 1) dp[1] = arr[1];
-    	if(n >= 2) dp[2] = arr[1] + arr[2];	
-    	if(n >= 3) dp[3] = Math.max(Math.max(dp[2], arr[2]+arr[3]),arr[1]+arr[3]);
+    	int max = dp[0];
     	
-    	for(int i=4;i<=n;i++) {
+    	for(int i=1;i<n;i++) {
+    		  		
+    		if(dp[i-1] < 0) {
+    			if(dp[i] > max) {
+        			max = dp[i];
+        		}
+    			continue;
+    		}
     		
-    		dp[i] = Math.max(Math.max(dp[i-1], dp[i-3] + arr[i-1] + arr[i]), dp[i-2] + arr[i]); 
+    		dp[i] = dp[i] + dp[i-1];
+    		
+    		if(dp[i] > max) {
+    			max = dp[i];
+    		}
+    		
     	}
     	
-    	System.out.println(dp[n]);
+    	System.out.println(max);
     	
     	
     	
-    	
-    	
-    		
     }
 
 }
