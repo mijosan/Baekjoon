@@ -15,36 +15,21 @@ public class Main {
     	
     	
     	int n = Integer.parseInt(br.readLine());
-    	int[] dp = new int[n];
-    	int[] arr = new int[n];
+    	int[] dp = new int[n+1];
     	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    	for(int i=0;i<n;i++) {
-    		arr[i] = Integer.parseInt(st.nextToken());
-    		dp[i] = 1;
+    	if(n >= 1) {
+    		dp[1] = 1;
     	}
     	
-    	for(int i=1;i<n;i++) {
-    		
-    		for(int j=0;j<i;j++) {
-    			
-	    		if(arr[i] > arr[j]) {
-	    			dp[i] = Math.max(dp[i], dp[j]+1);
-	    		}
-	    		
-    		}
+    	if(n >= 2) {
+    		dp[2] = 3;
     	}
     	
-    	int max = 0;
-    	
-    	for(int i=0;i<n;i++) {
-
-    		if(max < dp[i]) {
-    			max = dp[i];
-    		}
+    	for(int i=3;i<=n;i++) {
+    		dp[i] = (dp[i-2]*2 + dp[i-1])%10007;
     	}
     	
-    	System.out.println(max);
+    	System.out.println(dp[n]);
     	
     	
 
