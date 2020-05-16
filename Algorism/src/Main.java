@@ -14,41 +14,26 @@ public class Main {
 		// int n = Integer.parseInt(br.readLine());
     	
     	
-    	int t = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-	
-    	for(int j=0;j<t;j++) {
-    		
-    		int n = Integer.parseInt(br.readLine());
-    		
-    		long[] dp = new long[n+1];
-    		
-    		if(n >= 1) {
-    			dp[1] = 1;
-    		}
-    		
-    		if(n >= 2) {
-    			dp[2] = 1;
-    		}
-    		
-    		if(n >= 3) {
-    			dp[3] = 1;
-    		}
-    		
-    		if(n >= 4) {
-    			dp[4] = 2;
-    		}
-    		
-    		if(n >= 5) {
-    			dp[5] = 2;
-    		}
-    		
-	    	for(int i=6;i<=n;i++) {
-	    		
-	    		dp[i] = dp[i-1] + dp[i-5];
-	    	}
-	    	
-	    	System.out.println(dp[n]);
+    	int[] dp = new int[n+1];
+    	
+    	for(int i=1;i<=n;i++) {
+    		dp[i] = Integer.parseInt(st.nextToken());
     	}
+    	
+    	if(n >= 2) {
+    		dp[2] = Math.max(dp[1]*2, dp[2]);
+    	}
+    	
+    	for(int i=3;i<=n;i++) {
+    		for(int j=1;j<i;j++) {
+    			dp[i] = Math.max(dp[i], dp[i-j]+dp[j]);
+    		}
+    	}
+    	
+    	System.out.println(dp[n]);
+    	
     }
 }
