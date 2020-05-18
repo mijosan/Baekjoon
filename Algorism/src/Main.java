@@ -14,22 +14,34 @@ public class Main {
 		// int n = Integer.parseInt(br.readLine());
     	
     	
-    	//int n = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
     	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	int[] dp = new int[n+2]; //그날 받을수있는 최대 금액 (i + 1일날)
+    	int[] t = new int[n+2]; //상담 걸리는 시간
+    	int[] p = new int[n+2]; //상담 금액
     	
-    	int n = Integer.parseInt(st.nextToken());
-    	int m = Integer.parseInt(st.nextToken());
-    	
-    	int[] dp = new int[m+1];
-    
-    	dp[1] = n - 1;
-    	
-    	for(int i=2;i<=m;i++) {
-    
-    		dp[i] = dp[i-1] + n;
+    	for(int i=1;i<=n;i++) {
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		t[i] = Integer.parseInt(st.nextToken());
+    		p[i] = Integer.parseInt(st.nextToken());
     	}
     	
-    	System.out.println(dp[m]);
+    	int max = 0;
+    	
+    	for(int i=1;i<=n+1;i++) {
+    	
+    		dp[i] = Math.max(max, dp[i]);
+    		
+    		
+    		if(i + t[i] <= n+1) {
+    			dp[i + t[i]] = Math.max(dp[i + t[i]], dp[i] + p[i]);
+    		}
+    		
+    		max = Math.max(max, dp[i]);
+    		
+    	}
+    	
+    	System.out.println(max);
+
     }
 }
