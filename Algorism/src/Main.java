@@ -1,6 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 //DP : 주어진 문제를 여러 개의 부분 문제들로 나누어 푼 다음, 그 결과들로 주어진 문제를 푼다.
 
@@ -14,34 +20,92 @@ public class Main {
 		// int n = Integer.parseInt(br.readLine());
     	
     	
-    	int n = Integer.parseInt(br.readLine());
+    	//int n = Integer.parseInt(br.readLine());
     	
-    	int[] dp = new int[n+2]; //그날 받을수있는 최대 금액 (i + 1일날)
-    	int[] t = new int[n+2]; //상담 걸리는 시간
-    	int[] p = new int[n+2]; //상담 금액
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	for(int i=1;i<=n;i++) {
-    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    		t[i] = Integer.parseInt(st.nextToken());
-    		p[i] = Integer.parseInt(st.nextToken());
+    	int vertex = Integer.parseInt(st.nextToken());
+    	int edge = Integer.parseInt(st.nextToken());
+    	int start = Integer.parseInt(st.nextToken());
+    	boolean[] visited = new boolean[vertex+1];
+    	
+    	ArrayList<Integer>[] adjList = new ArrayList[vertex+1];
+    	
+    	for(int i=0;i<adjList.length;i++) {
+    		adjList[i] = new ArrayList<Integer>();
     	}
     	
-    	int max = 0;
+    	for(int i=0;i<edge;i++) {
+    		 st = new StringTokenizer(br.readLine()," ");
+    		 int v1 = Integer.parseInt(st.nextToken());
+    		 int v2 = Integer.parseInt(st.nextToken());
+    		 
+    		 adjList[v1].add(v2);
+    		 adjList[v2].add(v1);
+    	}
     	
-    	for(int i=1;i<=n+1;i++) {
+    	for(int i=0;i<adjList.length;i++) {
+    		Collections.sort(adjList[i]); //오름차순
+    	}
     	
-    		dp[i] = Math.max(max, dp[i]);
+    	
+    	dfs(adjList, visited, start);
+    	
+    	System.out.println();
+    	Arrays.fill(visited, false);
+    	
+    	bfs(adjList, visited, start);
+    }
+    
+    static void dfs(ArrayList<Integer>[] adjList, boolean[] visited, int v) {
+    	Stack<Integer> stack = new Stack<>();
+    	int n = adjList.length-1;
+    	boolean flag = false;
+    	
+    	stack.push(v);
+    	visited[v] = true;
+    	System.out.print(v + " ");
+    	
+    	while(!stack.isEmpty()) {
+    		int top = stack.peek();
     		
+    		flag = false;
     		
-    		if(i + t[i] <= n+1) {
-    			dp[i + t[i]] = Math.max(dp[i + t[i]], dp[i] + p[i]);
+    		for(int i : adjList[top]) {
+    			if(visited[i] == false) {
+    				stack.push(i);
+    				
+    				System.out.print(i + " ");
+    				visited[i] = true;
+    				flag = true;
+    				break;
+    			}
     		}
     		
-    		max = Math.max(max, dp[i]);
+    		if(flag == false) {
+    			stack.pop();
+    		}
     		
     	}
-    	
-    	System.out.println(max);
+    }
+    
+    static void bfs(ArrayList<Integer>[] adjList, boolean[] visited, int v) {
+        Queue<Integer> q = new LinkedList<>();
+
+        q.add(v);
+        visited[v] = true;
+
+        while(!q.isEmpty()) {
+            v = q.poll();
+            System.out.print(v + " ");
+
+            for(int vv: adjList[v]) {
+                if(!visited[vv]) {
+                    q.add(vv);
+                    visited[vv] = true;
+                }
+            }
+        }
 
     }
 }
