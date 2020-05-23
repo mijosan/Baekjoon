@@ -31,11 +31,19 @@ public class Main {
       		}
     	}
     	
+    	
     	for(int i=1;i<map.length;i++) {
+    		boolean flag = false;
+    		
     		for(int j=1;j<map.length;j++) {
     			
     			if(map[i][j] == 1) {
     				bfs(i, j);
+    				flag = true;
+    			}
+    			
+    			if(flag == true) {
+    				break;
     			}
     		}
     	}
@@ -62,12 +70,11 @@ public class Main {
     		j = stack.peek();
     		boolean flag = false;
     		
-    		
+    		 
     		for(int k=1;k<map.length;k++) {
     			if(map[j][k] == 1 && visited[j][k] == 0) {
     				stack.push(k);
     				visited[j][k] = 1;    				
-    				visited[i][k] = 1;
     				result[i][k] = 1;
     				
     				flag = true;
