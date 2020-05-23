@@ -9,10 +9,8 @@ import java.util.StringTokenizer;
 
 public class Main {
 	
-	static int n;
 	static int[][] map;
 	static int[][] visited;
-	static int max;
 	static int[] x_move = {0, -1, 0, 1};
 	static int[] y_move = {-1, 0, 1, 0};
 	
@@ -23,7 +21,8 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	n = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
+    	int max = 0;
     	
     	map = new int[n+2][n+2];
     		
