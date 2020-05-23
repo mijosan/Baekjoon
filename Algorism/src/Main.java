@@ -8,10 +8,14 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
+	
+	static int n;
 	static int[][] map;
 	static int[][] visited;
-	static int[][] result;
-	static int vertex;
+	static int max;
+	static int[] x_move = {0, -1, 0, 1};
+	static int[] y_move = {-1, 0, 1, 0};
+	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -19,66 +23,57 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	vertex = Integer.parseInt(br.readLine());
-    	map = new int[vertex+1][vertex+1];
-    	result = new int[vertex+1][vertex+1];
+    	n = Integer.parseInt(br.readLine());
     	
-    	for(int i=1;i<map.length;i++) {
+    	map = new int[n+2][n+2];
+    		
+    	for(int i=1;i<=n;i++) {
     		StringTokenizer st = new StringTokenizer(br.readLine()," ");
     		
-    		for(int j=1;j<map.length;j++) {
+    		for(int j=1;j<=n;j++) {
     			map[i][j] = Integer.parseInt(st.nextToken());
-      		}
-    	}
-    	
-    	
-    	for(int i=1;i<map.length;i++) {
-    		boolean flag = false;
-    		
-    		for(int j=1;j<map.length;j++) {
-    			
-    			if(map[i][j] == 1) {
-    				bfs(i, j);
-    				flag = true;
-    			}
-    			
-    			if(flag == true) {
-    				break;
-    			}
     		}
     	}
     	
-    	for(int i=1;i<map.length;i++) {
-    		for(int j=1;j<map.length;j++) {
-    			System.out.print(result[i][j] + " ");
-    		}
-    		System.out.println();
+    	
+    	for(int k=0;k<=100;k++) {
+    		int count = 0;
+    		visited = new int[n+2][n+2];
+
+	    	for(int i=1;i<=n;i++) {    		
+	    		for(int j=1;j<=n;j++) {
+	    			if(map[i][j] > k && visited[i][j] == 0) {
+	    				bfs(i, j, k);
+	    				count++;
+	    			}
+	    		}
+	    	}
+	    	max = Math.max(max, count);
     	}
-    
+    	System.out.println(max);
+
     }
     
-    static void bfs(int i, int j) {
-    		
-		Stack<Integer> stack = new Stack<Integer>();
-		visited = new int[vertex+1][vertex+1];
-		
-    	stack.push(j);
-    	visited[i][j] = 1;
-    	result[i][j] = 1;
+    static void bfs(int i, int j, int height) {
+    	Stack<Node> stack = new Stack<Node>();
     	
+    	stack.push(new Node(i, j));
+    	visited[i][j] = 1;
+
     	while(!stack.isEmpty()) {
-    		j = stack.peek();
+    		Node node = stack.peek();
     		boolean flag = false;
     		
-    		 
-    		for(int k=1;k<map.length;k++) {
-    			if(map[j][k] == 1 && visited[j][k] == 0) {
-    				stack.push(k);
-    				visited[j][k] = 1;    				
-    				result[i][k] = 1;
-    				
+    		for(int k=0;k<4;k++) {
+    			int x = node.i + x_move[k];
+    			int y = node.j + y_move[k];
+
+    			if(map[x][y] != 0 && map[x][y] > height && visited[x][y] == 0) {
+
+    				stack.push(new Node(x, y));
+    				visited[x][y] = 1;
+
     				flag = true;
-    				
     				break;
     			}
     		}
@@ -86,8 +81,18 @@ public class Main {
     		if(flag == false) {
     			stack.pop();
     		}
-    				
     	}
-	}
+    }
     
+
+}
+
+class Node{
+	int i;
+	int j;
+	
+	Node(int i, int j){
+		this.i = i;
+		this.j = j;
+	}
 }
