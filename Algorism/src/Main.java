@@ -6,12 +6,13 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int[][] map;
-	static int[][] visited;
-	static int[] x_move = {0, -1, 0, 1};
-	static int[] y_move = {-1, 0, 1, 0};
 	static int n;
 	static int m;
+	static int[][] map = new int[n][m];
+	static int[][] visited = new int[n][m];
+	static int[] x_move = {0, -1, 0, 1};
+	static int[] y_move = {-1, 0, 1, 0};
+	static Queue<Node> queue;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,28 +23,31 @@ public class Main {
     	
     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	n = Integer.parseInt(st.nextToken());
     	m = Integer.parseInt(st.nextToken());
+    	n = Integer.parseInt(st.nextToken());
     	map = new int[n][m];
     	visited = new int[n][m];
-  
+    	queue = new LinkedList<Node>();
+    	
     	for(int i=0;i<n;i++) {
-    		String s = br.readLine(); 
-    				
+    		st = new StringTokenizer(br.readLine()," ");
+    		
     		for(int j=0;j<m;j++) {
-    			map[i][j] = s.charAt(j) - '0';
+    			map[i][j] = Integer.parseInt(st.nextToken());
+    			
+    			if(map[i][j] == 1) {
+    				queue.add(new Node(i, j));
+    				visited[i][j] = 1;
+    			}
     		}
     	}
     	
-    	bfs();	
+    	bfs();
     }
     
     static void bfs() {
-    	Queue<Node> queue = new LinkedList<Node>();
+    	int max = 1;
     	
-    	queue.add(new Node(0, 0));
-    	visited[0][0] = 1;
-
     	while(!queue.isEmpty()) {
     		Node node = queue.poll();
     		
@@ -51,25 +55,41 @@ public class Main {
     		int fy = node.j;
     		
     		for(int i=0;i<4;i++) {
-    			int x = x_move[i] + node.i;
-    			int y = y_move[i] + node.j;
+    			int x = fx + x_move[i];
+    			int y = fy + y_move[i];
     			
     			if(x >= 0 && x < n && y >= 0 && y < m) {
-    				if(map[x][y] == 1 && visited[x][y] == 0) {
+    				if(map[x][y] == 0 && visited[x][y] == 0) {
     					queue.add(new Node(x, y));
     					visited[x][y] = 1;
-    					map[x][y] = map[fx][fy] + 1;
     					
-    					if(x == n-1 && y == m-1) {
-    						break;
-    					}
+    					map[x][y] = map[fx][fy] + 1;
+    					max = Math.max(max, map[x][y]);
     				}
     			}
     		}
-    		
     	}
-    	System.out.println(map[n-1][m-1]);
+    	
+    	if(check()) {
+    		System.out.println(max-1);
+    	}else {
+    		System.out.println(-1);
+    	}
+    	
     }
+    
+    static boolean check() {
+    	for(int i=0;i<n;i++) {
+    		for(int j=0;j<m;j++) {
+    			if(map[i][j] != -1 && visited[i][j] == 0) {
+    				return false;
+    			}
+    		}
+    	}
+    	
+    	return true;
+    }
+   
 }
 
 class Node{
