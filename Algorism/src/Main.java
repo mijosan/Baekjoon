@@ -59,6 +59,10 @@ public class Main {
     					queue.add(new Node(x, y));
     					visited[x][y] = 1;
     					map[x][y] = map[fx][fy] + 1;
+    					
+    					if(x == n-1 && y == m-1) {
+    						break;
+    					}
     				}
     			}
     		}
