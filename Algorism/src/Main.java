@@ -1,22 +1,17 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int m;
-	static int n;
 	static int[][] map;
 	static int[][] visited;
 	static int[] x_move = {0, -1, 0, 1};
 	static int[] y_move = {-1, 0, 1, 0};
-	static int area;
-	static int[] areaCount;
+	static int n;
+	static int m;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,80 +22,49 @@ public class Main {
     	
     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	m = Integer.parseInt(st.nextToken());
     	n = Integer.parseInt(st.nextToken());
-    	int k = Integer.parseInt(st.nextToken());
-    	
-    	map = new int[m][n];
-    	visited = new int[m][n];
-    	areaCount = new int[m*n];
-    	
-    	for(int i=0;i<k;i++) {
-    		st = new StringTokenizer(br.readLine()," ");
-    		
-    		int x1 = Integer.parseInt(st.nextToken());
-    		int y1 = Integer.parseInt(st.nextToken());
-    		int x2 = Integer.parseInt(st.nextToken());
-    		int y2 = Integer.parseInt(st.nextToken());
-    		
-    		for(int j=y1;j<y2;j++) { 
-    			for(int l=x1;l<x2;l++) {
-    				map[j][l] = 1;
-    			}
+    	m = Integer.parseInt(st.nextToken());
+    	map = new int[n][m];
+    	visited = new int[n][m];
+  
+    	for(int i=0;i<n;i++) {
+    		String s = br.readLine(); 
+    				
+    		for(int j=0;j<m;j++) {
+    			map[i][j] = s.charAt(j) - '0';
     		}
     	}
     	
-    	for(int i=0;i<m;i++) {
-    		for(int j=0;j<n;j++) {
-    			if(map[i][j] == 0 && visited[i][j] == 0) {
-    				areaCount[area] = 1;
-    				bfs(i, j);
-    				area++;
-    			}
-    		}
-    	}
-    	
-    	Arrays.sort(areaCount,0,area);
-    	
-    	System.out.println(area);
-    	
-    	for(int i=0;i<area;i++) {
-    		System.out.print(areaCount[i]);
-    		
-    		if(i != areaCount.length-1) {
-    			System.out.print(" ");
-    		}
-    	}
+    	bfs();	
     }
     
-    static void bfs(int i, int j) {
-    	Stack<Node> stack = new Stack<Node>();
+    static void bfs() {
+    	Queue<Node> queue = new LinkedList<Node>();
     	
-    	stack.push(new Node(i, j));
-    	visited[i][j] = 1;
-    	
-    	while(!stack.isEmpty()) {
-    		Node node = stack.peek();
-    		boolean flag = false;
+    	queue.add(new Node(0, 0));
+    	visited[0][0] = 1;
+
+    	while(!queue.isEmpty()) {
+    		Node node = queue.poll();
     		
-    		for(int k=0;k<4;k++) {
-    			int x = node.i + x_move[k];
-    			int y = node.j + y_move[k];
+    		int fx = node.i;
+    		int fy = node.j;
+    		
+    		for(int i=0;i<4;i++) {
+    			int x = x_move[i] + node.i;
+    			int y = y_move[i] + node.j;
     			
-    			if(x >= 0 && x < m && y >=0 && y < n && map[x][y] == 0 && visited[x][y] == 0) {
-    				stack.push(new Node(x, y));
-    				visited[x][y] = 1;
-    				areaCount[area] += 1;
-    				
-    				flag = true;
-    				break;
+    			if(x >= 0 && x < n && y >= 0 && y < m) {
+    				if(map[x][y] == 1 && visited[x][y] == 0) {
+    					queue.add(new Node(x, y));
+    					visited[x][y] = 1;
+    					map[x][y] = map[fx][fy] + 1;
+    				}
     			}
     		}
     		
-    		if(flag == false) {
-    			stack.pop();
-    		}
     	}
+    	System.out.println(map[n-1][m-1]);
     }
 }
 
