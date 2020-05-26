@@ -1,16 +1,18 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int l;
-	static int[][] map;
-	static int[][] visited;
-	static int[] x_move = {2, 1, -1, -2, -2, -1, 1, 2};
-	static int[] y_move = {-1, -2, -2, -1, 1, 2, 2, 1};
+	static int n;
+	static int start;
+	static int target;
+	static ArrayList<Integer>[] adjList;
+	static int[] visited;
+	static int[] distance;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,70 +21,63 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int t = Integer.parseInt(br.readLine());
+    	n = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<t;i++) {
-    		l = Integer.parseInt(br.readLine());
-    		map = new int[l][l];
-    		visited = new int[l][l];
-    		
-    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	
+    	start = Integer.parseInt(st.nextToken());
+    	target = Integer.parseInt(st.nextToken());
+    	
+    	adjList = new ArrayList[n + 1];
+    	for(int i=0;i<adjList.length;i++) {
+    		adjList[i] = new ArrayList<Integer>();
+    	}
+
+    	visited = new int[n + 1];
+    	distance = new int[n + 1];
+    	
+    	int m = Integer.parseInt(br.readLine());
+    	
+    	for(int i=0;i<m;i++) {
+    		st = new StringTokenizer(br.readLine()," ");
     		
     		int x = Integer.parseInt(st.nextToken());
     		int y = Integer.parseInt(st.nextToken());
     		
-    		st = new StringTokenizer(br.readLine()," ");
-    		
-    		int tx = Integer.parseInt(st.nextToken());
-    		int ty = Integer.parseInt(st.nextToken());
-    		
-    		bfs(x, y, tx, ty);
+    		adjList[x].add(y);
+    		adjList[y].add(x);
     	}
     	
+    	bfs();
     }
     
-    static void bfs(int x, int y, int tx, int ty) {
-    	Queue<Node> queue = new LinkedList<Node>();
+    static void bfs() {
+    	Queue<Integer> queue = new LinkedList<Integer>();
+    	queue.add(start);
+    	visited[start] = 1;
     	
-    	queue.add(new Node(x, y));
-    	visited[x][y] = 1;
-    	
+    	loop:
     	while(!queue.isEmpty()) {
-    		Node node = queue.poll();
+    		int vertex = queue.poll();
     		
-    		int px = node.i;
-    		int py = node.j;
-    		
-    		for(int i=0;i<8;i++) {
-    			int mx = px + x_move[i];
-    			int my = py + y_move[i];
-    			
-    			if(mx >= 0 && mx < l && my >= 0 && my < l) {
-    				if(visited[mx][my] == 0) {
-    					queue.add(new Node(mx, my));
-    					visited[mx][my] = 1;
-    					map[mx][my] = map[px][py] + 1;
-    					
-    					if(mx == tx && my == ty) {
-    						break;
-    					}
+    		for(int i : adjList[vertex]) {
+    			if(visited[i] == 0) {
+    				queue.add(i);
+    				visited[i] = 1;
+    				distance[i] = distance[vertex] + 1;
+    				
+    				if(i == target) {
+    					break loop;
     				}
     			}
     		}
     	}
     	
-    	System.out.println(map[tx][ty]);
-    	
+    	if(visited[target] == 0) {
+    		System.out.println(-1);
+    	}else {
+    		System.out.println(distance[target]);
+    	}
     }
-    
-}
-
-class Node{
-	int i;
-	int j;
-	
-	Node(int i, int j){
-		this.i = i;
-		this.j = j;
-	}
+  
 }
