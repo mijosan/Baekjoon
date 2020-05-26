@@ -4,11 +4,18 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
-//그 수에 도달했다는 뜻은 가장 빨리 도착했다는 뜻임
+
 public class Main {
-	static int[] map;
-	static int[] visited;
-	
+	static int m;
+	static int n;
+	static int h;
+	static int[][][] map;
+	static int[][][] visited;
+	static int[] x_move = {0, -1, 0, 1, 0, 0};
+	static int[] y_move = {-1, 0, 1, 0, 0, 0};
+	static int[] z_move = {0, 0, 0, 0, -1, 1};
+	static Queue<Node> queue;
+		
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -18,65 +25,88 @@ public class Main {
     	
     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	int n = Integer.parseInt(st.nextToken());
-    	int k = Integer.parseInt(st.nextToken());
-    	map = new int[100001];
-    	visited = new int[100001];
+    	m = Integer.parseInt(st.nextToken());
+    	n = Integer.parseInt(st.nextToken());
+    	h = Integer.parseInt(st.nextToken());
+    	map = new int[h][n][m];
+    	visited = new int[h][n][m];
+    	queue = new LinkedList<Node>();
     	
-    	bfs(n, k);
-    }
-    
-    static void bfs(int n, int k) {
-    	Queue<Integer> queue = new LinkedList<Integer>();
-    	visited[n] = 1;
-    	queue.add(n);
-    	
-    	loop:
-    	while(!queue.isEmpty()) {
-    		int fLocation = queue.poll();
-
-    		for(int i=0;i<3;i++) {
-    			if(i == 0) {
-    				int location = fLocation + 1;
+    	for(int i=0;i<h;i++) {
+    		for(int j=0;j<n;j++) {
+    			st = new StringTokenizer(br.readLine()," ");
+    			
+    			for(int k=0;k<m;k++) {
+    				map[i][j][k] = Integer.parseInt(st.nextToken());
     				
-    				if(location >= 0 && location <= 100000 && visited[location] == 0) {
-	    				queue.add(location);
-	    				visited[location] = 1;
-	    				map[location] = map[fLocation] + 1;
-
-	    				if(location == k) {
-	    					break loop;
-	    				}
-    				}		
-    			}else if(i == 1) {
-    				int location = fLocation - 1;
-    				
-    				if(location >= 0 && location <= 100000 && visited[location] == 0) {
-	    				queue.add(location);
-	    				visited[location] = 1;
-	    				map[location] = map[fLocation] + 1;
-	    				
-	    				if(location == k) {
-	    					break loop;
-	    				}
-    				}	
-    			}else if(i == 2) {
-    				int location = fLocation * 2;
-    				
-    				if(location >= 0 && location <= 100000 && visited[location] == 0) {
-	    				queue.add(location);
-	    				visited[location] = 1;
-	    				map[location] = map[fLocation] + 1;
-	    				
-	    				if(location == k) {
-	    					break loop;
-	    				}
-    				}	
-    			}    			
+    				if(map[i][j][k] == 1) {
+    					queue.add(new Node(i, j, k));
+    					visited[i][j][k] = 1;
+    				}
+    			}
     		}
     	}
     	
-    	System.out.println(map[k]);
+    	bfs();
     }
     
+    static void bfs() {
+    	int max = 1;
+    	
+    	while(!queue.isEmpty()) {
+    		Node node = queue.poll();
+    		
+    		int pi = node.i;
+    		int pj = node.j;
+    		int pk = node.k;
+    		
+    		for(int l=0;l<6;l++) {
+    			int i = pi + z_move[l];
+    			int j = pj + x_move[l];
+    			int k = pk + y_move[l];
+    			
+    			if(i >= 0 && i < h && j >= 0 && j < n && k >=0 && k < m) {
+    				if(map[i][j][k] == 0 && visited[i][j][k] == 0) {
+	    				queue.add(new Node(i, j, k));
+	    				visited[i][j][k] = 1;
+	    				map[i][j][k] = map[pi][pj][pk] + 1;
+	    				
+	    				max = Math.max(max, map[i][j][k]);
+    				}
+    			}
+    		}
+    	}
+    	
+    	if(check()) {
+    		System.out.println(max-1);
+    	}else {
+    		System.out.println(-1);
+    	}
+    }
+    
+    static boolean check() {
+    	for(int i=0;i<h;i++) {
+    		for(int j=0;j<n;j++) {
+    			for(int k=0;k<m;k++) {
+    				if(map[i][j][k] != -1 && visited[i][j][k] == 0) {
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	
+    	return true;
+    }
+}
+
+class Node {
+	int i;
+	int j;
+	int k;
+	
+	Node(int i, int j, int k){
+		this.i = i;
+		this.j = j;
+		this.k = k;
+	}
 }
