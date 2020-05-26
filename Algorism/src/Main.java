@@ -6,16 +6,12 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int m;
-	static int n;
-	static int h;
-	static int[][][] map;
-	static int[][][] visited;
-	static int[] x_move = {0, -1, 0, 1, 0, 0};
-	static int[] y_move = {-1, 0, 1, 0, 0, 0};
-	static int[] z_move = {0, 0, 0, 0, -1, 1};
-	static Queue<Node> queue;
-		
+	static int l;
+	static int[][] map;
+	static int[][] visited;
+	static int[] x_move = {2, 1, -1, -2, -2, -1, 1, 2};
+	static int[] y_move = {-1, -2, -2, -1, 1, 2, 2, 1};
+	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -23,90 +19,70 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	int t = Integer.parseInt(br.readLine());
     	
-    	m = Integer.parseInt(st.nextToken());
-    	n = Integer.parseInt(st.nextToken());
-    	h = Integer.parseInt(st.nextToken());
-    	map = new int[h][n][m];
-    	visited = new int[h][n][m];
-    	queue = new LinkedList<Node>();
-    	
-    	for(int i=0;i<h;i++) {
-    		for(int j=0;j<n;j++) {
-    			st = new StringTokenizer(br.readLine()," ");
-    			
-    			for(int k=0;k<m;k++) {
-    				map[i][j][k] = Integer.parseInt(st.nextToken());
-    				
-    				if(map[i][j][k] == 1) {
-    					queue.add(new Node(i, j, k));
-    					visited[i][j][k] = 1;
-    				}
-    			}
-    		}
+    	for(int i=0;i<t;i++) {
+    		l = Integer.parseInt(br.readLine());
+    		map = new int[l][l];
+    		visited = new int[l][l];
+    		
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		
+    		int x = Integer.parseInt(st.nextToken());
+    		int y = Integer.parseInt(st.nextToken());
+    		
+    		st = new StringTokenizer(br.readLine()," ");
+    		
+    		int tx = Integer.parseInt(st.nextToken());
+    		int ty = Integer.parseInt(st.nextToken());
+    		
+    		bfs(x, y, tx, ty);
     	}
     	
-    	bfs();
     }
     
-    static void bfs() {
-    	int max = 1;
+    static void bfs(int x, int y, int tx, int ty) {
+    	Queue<Node> queue = new LinkedList<Node>();
+    	
+    	queue.add(new Node(x, y));
+    	visited[x][y] = 1;
     	
     	while(!queue.isEmpty()) {
     		Node node = queue.poll();
     		
-    		int pi = node.i;
-    		int pj = node.j;
-    		int pk = node.k;
+    		int px = node.i;
+    		int py = node.j;
     		
-    		for(int l=0;l<6;l++) {
-    			int i = pi + z_move[l];
-    			int j = pj + x_move[l];
-    			int k = pk + y_move[l];
+    		for(int i=0;i<8;i++) {
+    			int mx = px + x_move[i];
+    			int my = py + y_move[i];
     			
-    			if(i >= 0 && i < h && j >= 0 && j < n && k >=0 && k < m) {
-    				if(map[i][j][k] == 0 && visited[i][j][k] == 0) {
-	    				queue.add(new Node(i, j, k));
-	    				visited[i][j][k] = 1;
-	    				map[i][j][k] = map[pi][pj][pk] + 1;
-	    				
-	    				max = Math.max(max, map[i][j][k]);
+    			if(mx >= 0 && mx < l && my >= 0 && my < l) {
+    				if(visited[mx][my] == 0) {
+    					queue.add(new Node(mx, my));
+    					visited[mx][my] = 1;
+    					map[mx][my] = map[px][py] + 1;
+    					
+    					if(mx == tx && my == ty) {
+    						break;
+    					}
     				}
     			}
     		}
     	}
     	
-    	if(check()) {
-    		System.out.println(max-1);
-    	}else {
-    		System.out.println(-1);
-    	}
+    	System.out.println(map[tx][ty]);
+    	
     }
     
-    static boolean check() {
-    	for(int i=0;i<h;i++) {
-    		for(int j=0;j<n;j++) {
-    			for(int k=0;k<m;k++) {
-    				if(map[i][j][k] != -1 && visited[i][j][k] == 0) {
-    					return false;
-    				}
-    			}
-    		}
-    	}
-    	
-    	return true;
-    }
 }
 
-class Node {
+class Node{
 	int i;
 	int j;
-	int k;
 	
-	Node(int i, int j, int k){
+	Node(int i, int j){
 		this.i = i;
 		this.j = j;
-		this.k = k;
 	}
 }
