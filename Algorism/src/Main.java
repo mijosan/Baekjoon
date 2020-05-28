@@ -4,18 +4,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n;
-	static int m;
-	static ArrayList<Integer>[] adjList;
-	static int[] visited;
-	static int[] distance;
-	static int min = Integer.MAX_VALUE;
-	static int[] count;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,61 +20,67 @@ public class Main {
     	
     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	n = Integer.parseInt(st.nextToken());
-    	m = Integer.parseInt(st.nextToken());
-    	count = new int[n + 1];
+    	int n = Integer.parseInt(st.nextToken());
+    	int m = Integer.parseInt(st.nextToken());
     	
-    	adjList = new ArrayList[n + 1];
+    	int[] count = new int[n + 1];
+    	ArrayList<Integer>[] adjList = new ArrayList[n + 1];
+    	
     	for(int i=0;i<adjList.length;i++) {
-    		adjList[i] = new ArrayList();
+    		adjList[i] = new ArrayList<Integer>();
     	}
     	
     	for(int i=0;i<m;i++) {
     		st = new StringTokenizer(br.readLine()," ");
     		
-    		int vertex1 = Integer.parseInt(st.nextToken());
-    		int vertex2 = Integer.parseInt(st.nextToken());
+    		int a = Integer.parseInt(st.nextToken());
+    		int b = Integer.parseInt(st.nextToken());
     		
-    		adjList[vertex1].add(vertex2);
-    		adjList[vertex2].add(vertex1);
+    		adjList[b].add(a);
     	}
     	
-    	bfs();
+    	bfs(n, adjList, count);
     	
     }
     
-    static void bfs() { 	
+    static void bfs(int n, ArrayList<Integer>[] adjList, int[] count) {
     	for(int i=1;i<=n;i++) {
     		Queue<Integer> queue = new LinkedList<Integer>();
-    		visited = new int[n + 1];
-    		distance = new int[n + 1];
-
+    		int[] visited = new int[n + 1];
     		
-        	queue.add(i);
-        	visited[i] = 1;
-        	
-        	while(!queue.isEmpty()) {
-        		int vertex = queue.poll();
-        		
-        		for(int j : adjList[vertex]) {
-        			if(visited[j] == 0) {
-        				queue.add(j);
-        				visited[j] = 1;
-        				distance[j] = distance[vertex] + 1;
-        				count[i] = count[i] + distance[j];
-        			}
-        		}
-        	}
+    		queue.add(i);
+    		visited[i] = 1;
+    		
+    		while(!queue.isEmpty()) {
+    			int v = queue.poll();
+    			
+    			for(int j : adjList[v]) {
+    				if(visited[j] == 0) {
+    					queue.add(j);
+    					visited[j] = 1;
+    					count[i] = count[i] + 1;
+    				}
+    			}
+    		}
+    		
     	}
+    	int max = Integer.MIN_VALUE;
     	
-    	int temp = 0;
-    	
-    	for(int i=1;i<count.length;i++) {
-    		if(min > count[i]) {
-    			min = count[i];
-    			temp = i;
+    	for(int i=1;i<=n;i++) {
+    		if(max <= count[i]) {
+    			max = count[i];
     		}
     	}
-    	System.out.println(temp);
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(int i=1;i<=n;i++) {
+    		if(count[i] == max) {
+    			sb.append(i + " ");
+    		}
+    	}
+    	System.out.println(sb.toString().trim());
+    	
     }
+
 }
