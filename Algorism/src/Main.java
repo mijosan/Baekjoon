@@ -19,18 +19,13 @@ public class Main {
 		// int n = Integer.parseInt(br.readLine());
     	
     	int n = Integer.parseInt(br.readLine());
-    	int count = 0;
     	
-    	while(n % 5 != 0 && n > 0) {
-    		n = n - 3;
-    		count++;
+    	int p = 1;
+    	for(int i=n;i>0;i--) {
+    		p = p * i;
     	}
     	
-    	if(n < 0) {
-    		System.out.println(-1);
-    	}else {
-    		System.out.println(count + n/5);
-    	}
+    	System.out.println(p);
     }
 
 
