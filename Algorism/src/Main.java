@@ -18,19 +18,9 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int n = Integer.parseInt(br.readLine());
-    	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    	
-    	int count = 0;
-    	while(st.hasMoreTokens()) {
-    		int m = Integer.parseInt(st.nextToken());
-    		
-    		if(m == n) {
-    			count++;
-    		}
-    	}
-    	System.out.println(count);
+    	 int R = Integer.parseInt(br.readLine());
+         System.out.printf("%.6f\n", (double) R * R * Math.PI);
+         System.out.printf("%.6f\n", (double) 2 * R * R);
     }
 
 
