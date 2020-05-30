@@ -18,14 +18,39 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int n = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	int p = 1;
-    	for(int i=n;i>0;i--) {
-    		p = p * i;
+    	int n = Integer.parseInt(st.nextToken());
+    	int m = Integer.parseInt(st.nextToken());
+    	int[] arr = new int[n];
+    	int max = Integer.MIN_VALUE;
+    	int result = 0;
+    	
+    	st = new StringTokenizer(br.readLine()," ");
+    	
+    	for(int i=0;i<n;i++) {
+    		arr[i] = Integer.parseInt(st.nextToken());
     	}
     	
-    	System.out.println(p);
+    	for(int i=0;i<n-2;i++) {
+    		for(int j=i+1;j<n-1;j++) {
+    			for(int k=j+1;k<n;k++){
+    				int a = arr[i];
+    				int b = arr[j];
+    				int c = arr[k];
+    				
+    				result = a+b+c;
+    				
+    				if(result <= m && result >= max) {
+    					max = result;
+    				}
+    			}
+    		}
+    	}
+    	
+    	System.out.println(max);
+    	
+    	
     }
 
 
