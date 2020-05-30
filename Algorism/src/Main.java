@@ -20,15 +20,21 @@ public class Main {
     	
     	int n = Integer.parseInt(br.readLine());
     	
-    	int sum = 0;
-    	for(int i=0;i<9;i++) {
-    		sum = sum + Integer.parseInt(br.readLine());
+    	int count = 0;
+    	
+    	for(int i=0;i<n;i++) {
+    		int a = Integer.parseInt(br.readLine());
+    		
+    		if(a == 1) {
+    			count++;
+    		}
     	}
     	
-    	System.out.println(n-sum);
-    		
-    		
-    	   	
+    	if(count > n/2) {
+    		System.out.println("Junhee is cute!");
+    	}else {
+    		System.out.println("Junhee is not cute!");
+    	}
     }
 
 
