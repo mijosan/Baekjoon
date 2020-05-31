@@ -13,23 +13,28 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int[] arr1 = new int[10];
-    	for(int i=0;i<10;i++) {
-    		arr1[i] = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	
+    	int e = Integer.parseInt(st.nextToken());
+    	int f = Integer.parseInt(st.nextToken());
+    	int c = Integer.parseInt(st.nextToken());
+    	
+    	int sum = 0;
+    	int temp = (e+f)/c;
+    	int temp2 = (e+f)%c;
+    	
+    	while(true) {	
+    		sum = sum + temp;
+    		
+    		if(temp !=0) {
+    			int a = temp;
+    			temp = (temp+temp2) / c;
+    			temp2 = (a + temp2) % c;
+    		}else {
+    			break;
+    		}
     	}
     	
-    	int[] arr2 = new int[10];
-    	for(int i=0;i<10;i++) {
-    		arr2[i] = Integer.parseInt(br.readLine());
-    	}
-    	
-    	Arrays.sort(arr1);
-    	Arrays.sort(arr2);
-    	
-    	int result1 = arr1[arr1.length-1] + arr1[arr1.length-2] + arr1[arr1.length-3];
-    	int result2 = arr2[arr2.length-1] + arr2[arr2.length-2] + arr2[arr2.length-3];
-    	
-    	System.out.print(result1 + " " + result2);
-    	
+    	System.out.println(sum);
     }
 }
