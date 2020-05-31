@@ -22,18 +22,11 @@ public class Main {
     	int b = Integer.parseInt(br.readLine());
     	int c = Integer.parseInt(br.readLine());
     	int d = Integer.parseInt(br.readLine());
-    	int p = Integer.parseInt(br.readLine());
     	
-    	int resultA = a * p;
+    	int sum = a+b+c+d;
     	
-    	int resultB = 0;
-    	
-    	if(p <= c) {
-    		resultB = b;
-    	}else {
-    		resultB = (p-c)*d + b;
-    	}
-    	
-    	System.out.println(Math.min(resultA, resultB));
+    	System.out.println(sum/60);
+    	sum = sum % 60;
+    	System.out.println(sum);
     }
 }
