@@ -12,29 +12,34 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int sum = 0;
+    	int n = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<10;i++) {
-    		int n = Integer.parseInt(br.readLine());
+    	for(int i=0;i<n;i++) {
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
     		
-    		sum = sum + n;
-    		
-    		if(sum == 100) {
-    			break;
+    		int size = st.countTokens();
+    		int[] arr = new int[9];
+    		for(int j=1;j<=size;j++) {
+    			arr[j] = Integer.parseInt(st.nextToken());
     		}
     		
-    		if(sum > 100) {
-    			int gap1 = 100 - (sum - n);
-    			int gap2 = sum - 100;
-    			
-    			if(gap2 > gap1) {
-    				sum = sum - n;
-    			}
-    			
-    			break;
+    		arr[1] = arr[1] + arr[5];
+    		arr[2] = arr[2] + arr[6];
+    		arr[3] = arr[3] + arr[7];
+    		arr[4] = arr[4] + arr[8];
+    		
+    		if(arr[1] < 1) {
+    			arr[1] = 1;
     		}
+    		if(arr[2] < 1) {
+    			arr[2] = 1;
+    		}
+    		if(arr[3] < 0) {
+    			arr[3] = 0;
+    		}
+    		
+    		System.out.println(1 * arr[1] + 5 * arr[2] + 2 * arr[3] + 2 * arr[4]);
     	}
     	
-    	System.out.println(sum);
     }
 }
