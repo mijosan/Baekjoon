@@ -18,15 +18,28 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int a = Integer.parseInt(br.readLine());
-    	int b = Integer.parseInt(br.readLine());
-    	int c = Integer.parseInt(br.readLine());
-    	int d = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	
+    	int a = Integer.parseInt(st.nextToken());
+    	int b = Integer.parseInt(st.nextToken());
+    	int c = Integer.parseInt(st.nextToken());
+    	int d = Integer.parseInt(st.nextToken());
     	
     	int sum = a+b+c+d;
     	
-    	System.out.println(sum/60);
-    	sum = sum % 60;
-    	System.out.println(sum);
+    	st = new StringTokenizer(br.readLine()," ");
+    	
+    	int a1 = Integer.parseInt(st.nextToken());
+    	int b1 = Integer.parseInt(st.nextToken());
+    	int c1 = Integer.parseInt(st.nextToken());
+    	int d1 = Integer.parseInt(st.nextToken());
+    	
+    	int sum1 = a1+b1+c1+d1;
+    	
+    	if(sum>=sum1) {
+    		System.out.println(sum);
+    	}else {
+    		System.out.println(sum1);
+    	}
     }
 }
