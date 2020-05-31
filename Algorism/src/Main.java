@@ -18,17 +18,21 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int[] arr = new int[31];
+    	int n = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<28;i++) {
-    		int n = Integer.parseInt(br.readLine());
+    	for(int i=0;i<n;i++) {
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
     		
-    		arr[n] = 1;
-    	}
-    	
-    	for(int i=1;i<31;i++) {
-    		if(arr[i] == 0) {
-    			System.out.println(i);
+    		int r = Integer.parseInt(st.nextToken());
+    		int e = Integer.parseInt(st.nextToken());
+    		int c = Integer.parseInt(st.nextToken());
+    		
+    		if(r > e-c) {
+    			System.out.println("do not advertise");
+    		}else if(r == e-c) {
+    			System.out.println("does not matter");
+    		}else {
+    			System.out.println("advertise");
     		}
     	}
     }
