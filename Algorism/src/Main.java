@@ -12,26 +12,29 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int n = Integer.parseInt(br.readLine());
+    	int sum = 0;
     	
-    	for(int i=0;i<n;i++) {
-    		int m = Integer.parseInt(br.readLine());
-    		int count = 0;
-    		double point = 0;
-    		double result = 0;
-    		int count2 = 0;
+    	for(int i=0;i<10;i++) {
+    		int n = Integer.parseInt(br.readLine());
     		
-    		for(int j=0;j<m;j++) {
-    			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    			
-    			count = Integer.parseInt(st.nextToken());
-    			point = Double.parseDouble(st.nextToken());
-    			count2 = count2 + count;
-    			
-    			result = result + count*point;
+    		sum = sum + n;
+    		
+    		if(sum == 100) {
+    			break;
     		}
     		
-    		System.out.println(count2 + " " + String.format("%.1f", result/count2));
+    		if(sum > 100) {
+    			int gap1 = 100 - (sum - n);
+    			int gap2 = sum - 100;
+    			
+    			if(gap2 > gap1) {
+    				sum = sum - n;
+    			}
+    			
+    			break;
+    		}
     	}
+    	
+    	System.out.println(sum);
     }
 }
