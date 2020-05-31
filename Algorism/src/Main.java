@@ -18,27 +18,22 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	int n = Integer.parseInt(br.readLine());
-    	int[] alpha = new int[27];
+    	int a = Integer.parseInt(br.readLine());
+    	int b = Integer.parseInt(br.readLine());
+    	int c = Integer.parseInt(br.readLine());
+    	int d = Integer.parseInt(br.readLine());
+    	int p = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<n;i++) {
-    		char temp = br.readLine().charAt(0);
-    		
-    		alpha[temp - 97]++;
+    	int resultA = a * p;
+    	
+    	int resultB = 0;
+    	
+    	if(p <= c) {
+    		resultB = b;
+    	}else {
+    		resultB = (p-c)*d + b;
     	}
     	
-    	boolean flag = false;
-    	
-    	for(int i=0;i<27;i++) {
-    		
-    		if(alpha[i] >= 5) {
-    			System.out.print((char)(97 + i));
-    			flag = true;
-    		}
-    	}
-    	
-    	if(flag == false) {
-    		System.out.println("PREDAJA");
-    	}
+    	System.out.println(Math.min(resultA, resultB));
     }
 }
