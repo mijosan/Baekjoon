@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
+import java.util.StringTokenizer;
 
 public class Main {
 	
@@ -12,14 +12,26 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	BigInteger n = new BigInteger(br.readLine());
-        char c = br.readLine().charAt(0);
-        BigInteger m = new BigInteger(br.readLine());
-	
-        if(c == '*')
-            System.out.println(n.multiply(m));
-        else 
-            System.out.println(n.add(m));
+    	int n = Integer.parseInt(br.readLine());
     	
+    	for(int i=0;i<n;i++) {
+    		int m = Integer.parseInt(br.readLine());
+    		int count = 0;
+    		double point = 0;
+    		double result = 0;
+    		int count2 = 0;
+    		
+    		for(int j=0;j<m;j++) {
+    			StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    			
+    			count = Integer.parseInt(st.nextToken());
+    			point = Double.parseDouble(st.nextToken());
+    			count2 = count2 + count;
+    			
+    			result = result + count*point;
+    		}
+    		
+    		System.out.println(count2 + " " + String.format("%.1f", result/count2));
+    	}
     }
 }
