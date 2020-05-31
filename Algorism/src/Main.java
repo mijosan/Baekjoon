@@ -19,21 +19,26 @@ public class Main {
 		// int n = Integer.parseInt(br.readLine());
     	
     	int n = Integer.parseInt(br.readLine());
+    	int[] alpha = new int[27];
     	
     	for(int i=0;i<n;i++) {
-    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		char temp = br.readLine().charAt(0);
     		
-    		int r = Integer.parseInt(st.nextToken());
-    		int e = Integer.parseInt(st.nextToken());
-    		int c = Integer.parseInt(st.nextToken());
+    		alpha[temp - 97]++;
+    	}
+    	
+    	boolean flag = false;
+    	
+    	for(int i=0;i<27;i++) {
     		
-    		if(r > e-c) {
-    			System.out.println("do not advertise");
-    		}else if(r == e-c) {
-    			System.out.println("does not matter");
-    		}else {
-    			System.out.println("advertise");
+    		if(alpha[i] >= 5) {
+    			System.out.print((char)(97 + i));
+    			flag = true;
     		}
+    	}
+    	
+    	if(flag == false) {
+    		System.out.println("PREDAJA");
     	}
     }
 }
