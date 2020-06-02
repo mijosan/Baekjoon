@@ -7,13 +7,12 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int n;
+	static int m;
 	static char[][] map;
-	static char[][] colorMap;
+	static int[][] count;
 	static int[][] visited;
 	static int[] x_move = {0, -1, 0, 1};
 	static int[] y_move = {-1, 0, 1, 0};
-	static int color;
-	static int normal;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,93 +21,99 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	n = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	map = new char[n][n];
-    	colorMap = new char[n][n];
-    	visited = new int[n][n];
+    	n = Integer.parseInt(st.nextToken());
+    	m = Integer.parseInt(st.nextToken());
+    	map = new char[n][m];
+    	count = new int[n][m];
+    	visited = new int[n][m];
     	
     	for(int i=0;i<n;i++) {
     		String temp = br.readLine();
     		
-    		for(int j=0;j<n;j++) {
-    			char color = temp.charAt(j);
-    			
-    			map[i][j] = color;
-    			
-    			if(color == 'G') {
-    				colorMap[i][j] = 'R';
-    			}else {
-    				colorMap[i][j] = color;
-    			}
-    					
+    		for(int j=0;j<m;j++) {
+    			map[i][j] = temp.charAt(j);
     		}
     	}
     	
-    	//Á¤»ó
-    	for(int i=0;i<n;i++) {
-    		for(int j=0;j<n;j++) {
-    			if(visited[i][j] == 0) {
-    				bfs(i, j, "normal");
-    				normal++;
-    			}
-    		}
-    	}
-    	
-    	visited = new int[n][n];
-    	
-    	//»ö¸Í
-    	for(int i=0;i<n;i++) {
-    		for(int j=0;j<n;j++) {
-    			if(visited[i][j] == 0) {
-    				bfs(i, j, "color");
-    				color++;
-    			}
-    		}
-    	}
-    	
-    	System.out.println(normal + " " + color);
+    	bfs();
     }
     
-    static void bfs(int i, int j, String state) {
-    	Queue<Node> queue = new LinkedList<Node>();
-    	queue.add(new Node(i, j));
-    	visited[i][j] = 1;
+    static void bfs() {
+    	Queue<Pair> queue = new LinkedList<Pair>();
+    	boolean flag = false;
     	
+    	for(int i=0;i<n;i++) {
+    		for(int j=0;j<m;j++) {
+    			if(map[i][j] == '*') {
+    				queue.add(new Pair(i, j, '*'));
+    				visited[i][j] = 1;
+    			}
+    		}
+    	}
+    	
+    	for(int i=0;i<n;i++) {
+    		for(int j=0;j<m;j++) {
+    			if(map[i][j] == 'S') {
+    				queue.add(new Pair(i, j, 'S'));
+    				visited[i][j] = 1;
+    			}
+    		}
+    	}
+    	loop:
     	while(!queue.isEmpty()) {
-    		Node node = queue.poll();
+    		Pair pair = queue.poll();
     		
-    		int fx = node.i;
-    		int fy = node.j;
+    		int px = pair.i;
+    		int py = pair.j;
+    		char pc = pair.k;
     		
-    		for(int k=0;k<4;k++) {
-    			int x = fx + x_move[k];
-    			int y = fy + y_move[k];
-    	
-    			if(x >= 0 && x < n && y >= 0 && y < n) {
-    				if(state == "normal" && visited[x][y] == 0 && map[x][y] == map[fx][fy]) {		
-    					queue.add(new Node(x, y));
-    					visited[x][y] = 1;
+    		for(int i=0;i<4;i++) {
+    			int x = px + x_move[i];
+    			int y = py + y_move[i];
+    			
+    			if(x >= 0 && x < n && y >= 0 && y < m) {
+    				if(pc == '*') {
+	    				if(map[x][y] == '.' && visited[x][y] == 0) {
+	    					queue.add(new Pair(x, y, '*'));
+	    					map[x][y] = '*';
+	    					visited[x][y] = 1;	
+	    				}
     				}
     				
-    				if(state == "color" && visited[x][y] == 0 && colorMap[x][y] == colorMap[fx][fy]) {		
-    					queue.add(new Node(x, y));
-    					visited[x][y] = 1;
+    				if(pc == 'S') {
+	    				if(map[x][y] == '.' && visited[x][y] == 0) {
+	    					queue.add(new Pair(x, y, 'S'));
+	    					visited[x][y] = 1;
+	    					count[x][y] = count[px][py] + 1;    					
+	    				}
+	    				
+	    				if(map[x][y] == 'D') {
+	    					count[x][y] = count[px][py] + 1;
+	    					System.out.println(count[x][y]);
+	    					flag = true;
+	    					break loop;
+	    				}
     				}
     			}
     		}
     	}
     	
+    	if(flag == false) {
+    		System.out.println("KAKTUS");
+    	}
     }
 }
-
-class Node{
+class Pair{
 	int i;
 	int j;
+	char k;
 	
-	Node(int i, int j){
+	Pair(int i, int j, char k){
 		this.i = i;
 		this.j = j;
+		this.k = k;
 	}
 }
 
