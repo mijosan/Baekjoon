@@ -6,14 +6,13 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n;
-	static int m;
-	static char[][] map;
-	static int[][] countMap;
-	static int[][] visited;
-	static int[] x_move = {0, -1, 0, 1};
-	static int[] y_move = {-1, 0, 1, 0};
-	static int max;
+	static int f;
+	static int s;
+	static int g;
+	static int u;
+	static int d;
+	static int[] map;
+	static int[] visited;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -24,67 +23,68 @@ public class Main {
     	
     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	n = Integer.parseInt(st.nextToken());
-    	m = Integer.parseInt(st.nextToken());
-    	map = new char[n][m];
+    	f = Integer.parseInt(st.nextToken());
+    	s = Integer.parseInt(st.nextToken());
+    	g = Integer.parseInt(st.nextToken());
+    	u = Integer.parseInt(st.nextToken());
+    	d = Integer.parseInt(st.nextToken());
     	
-    	for(int i=0;i<n;i++) {
-    		String temp = br.readLine();
-    		
-    		for(int j=0;j<m;j++) {
-    			map[i][j] = temp.charAt(j);
-    		}
-    	}
+    	map = new int[f + 1];
+    	visited = new int[f + 1];
     	
     	bfs();
+    	
     }
     
     static void bfs() {
-    	Queue<Pair> queue = new LinkedList<Pair>();
+    	Queue<Integer> queue = new LinkedList<Integer>();
     	
-    	for(int i=0;i<n;i++) {
-    		for(int j=0;j<m;j++) {
-    			if(map[i][j] == 'L') {
-    				visited = new int[n][m];
-    				countMap = new int[n][m];
+    	queue.add(s);
+    	visited[s] = 1;
+    	boolean flag = false;
+    	
+    	while(!queue.isEmpty()) {
+    		int p = queue.poll();
+    		
+    		int x = p + u;
+    		int y = p - d;
+    		
+    		if(p == g) {
+    			System.out.println(map[p]);
+    			flag = true;
+    			break;
+    		}
+    		
+    		if(x >= 1 && x <= f) {
+    			if(visited[x] == 0) {
+    				queue.add(x);
+    				visited[x] = 1;
+    				map[x] = map[p] + 1;
     				
-    				queue.add(new Pair(i, j));
-    				visited[i][j] = 1;
+    				if(x == g) {
+    					System.out.println(map[x]);
+    					flag = true;
+    					break;
+    				}
+    			}
+    		}
+    		if(y >= 1 && y <= f) {	
+    			if(visited[y] == 0) {
+    				queue.add(y);
+    				visited[y] = 1;
+    				map[y] = map[p] + 1;
     				
-    				while(!queue.isEmpty()) {
-    					Pair pair = queue.poll();
-    					
-    					int px = pair.i;
-    					int py = pair.j;
-    					
-    					for(int k=0;k<4;k++) {
-    						int x = px + x_move[k];
-    						int y = py + y_move[k];
-    						
-    						if(x >= 0 && x < n && y >=0 && y < m) {
-    							if(visited[x][y] == 0 && map[x][y] == 'L') {
-    								queue.add(new Pair(x, y));
-    								visited[x][y] = 1;
-    								countMap[x][y] = countMap[px][py] + 1;
-    								
-    								max = Math.max(max, countMap[x][y]);
-    							}
-    						}
-    					}
+    				if(y == g) {
+    					System.out.println(map[y]);
+    					flag = true;
+    					break;
     				}
     			}
     		}
     	}
-    	
-    	System.out.println(max);
+
+    	if(flag == false) {
+    		System.out.println("use the stairs");
+    	}
     }
-}
-class Pair{
-	int i;
-	int j;
-	
-	Pair(int i, int j){
-		this.i = i;
-		this.j = j;
-	}
 }
