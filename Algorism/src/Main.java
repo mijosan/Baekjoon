@@ -7,11 +7,12 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static ArrayList<Pair>[] adjList;
-	static int[] visited;
-	static int n;
-	static int max;
-	static int maxNode;
+	static char[][] map = new char[12][6];
+	static int[][] visited;
+	static int[] x_move = {0, -1, 0, 1};
+	static int[] y_move = {-1, 0, 1, 0};
+	static ArrayList<Pair> adjList;
+	static int count = 0;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,68 +21,95 @@ public class Main {
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
     	
-    	n = Integer.parseInt(br.readLine());
-    	adjList = new ArrayList[n+1];
-
-    	for(int i=1;i<adjList.length;i++) {
-    		adjList[i] = new ArrayList<Pair>();
+    	for(int i=0;i<12;i++) {
+    		String temp = br.readLine();
+    		
+    		for(int j=0;j<6;j++) {
+    			map[i][j] = temp.charAt(j); 
+    		}
     	}
     	
-    	for(int i=0;i<n-1;i++) {
-    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	while(true) {
+    		boolean flag = false;
+    		visited = new int[12][6];
     		
-    		int parent = Integer.parseInt(st.nextToken());
-    		int child = Integer.parseInt(st.nextToken());
-    		int weight = Integer.parseInt(st.nextToken());
+    		for(int i=0;i<12;i++) {
+    			for(int j=0;j<6;j++) {
+    				if(visited[i][j] == 0 && map[i][j] != '.') {
+    					adjList = new ArrayList<Pair>();
+    					
+    					bfs(i, j);
+    					
+    					if(adjList.size() >= 4) {
+    						flag = true;
+    						
+    						for(Pair p : adjList) {
+    							map[p.i][p.j] = '.';
+    						}
+    					}				
+    				}
+    			}
+    		}
     		
-    		adjList[parent].add(new Pair(child, weight));
-    		adjList[child].add(new Pair(parent, weight));	
+    		if(flag == false) {
+    			break;
+    		}else {
+    			count++;
+    		}
+    		
+    		paint();
     	}
-    	
-    	bfs(1);
-    	
-    	bfs(maxNode);
-    	
-    	System.out.println(max);
+    	System.out.println(count);
     }
 	
-	static void bfs(int j) {
+	static void bfs(int i, int j) {
 		Queue<Pair> queue = new LinkedList<Pair>();
-		queue.add(new Pair(j, 0));
-		visited = new int[n+1];
-		visited[j] = 1;
+		queue.add(new Pair(i, j));
+		visited[i][j] = 1;
+		adjList.add(new Pair(i, j));
 		
 		while(!queue.isEmpty()) {
 			Pair pair = queue.poll();
 			
-			int pv = pair.v;
-			int pw = pair.w;
-
-			for(Pair i : adjList[pv]) {
+			int px = pair.i;
+			int py = pair.j;
+			
+			for(int k=0;k<4;k++) {		
+				int x = pair.i + x_move[k];
+				int y = pair.j + y_move[k];
 				
-				if(visited[i.v] == 0) {
-					int v = i.v;
-					int w = pw + i.w;
-					
-					queue.add(new Pair(v, w));
-					visited[v] = 1;
-					
-					if(max <= w) {
-						max = w;
-						maxNode = v;
+				if(x >= 0 && x < 12 && y >= 0 && y < 6) {
+					if(visited[x][y] == 0 && map[x][y] == map[px][py]) {
+						adjList.add(new Pair(x, y));
+						queue.add(new Pair(x, y));
+						visited[x][y] = 1;
 					}
 				}
 			}
 		}
 	}
+	
+	static void paint() {
+	    for (int i = 0; i < 6; i++) {
+	        for (int j = 10; j >= 0; j--) {
+	            for (int k = 11; k > j; k--) {
+	                if (map[j][i] != '.' && map[k][i] == '.') {
+	                    map[k][i] = map[j][i];
+	                    map[j][i] = '.';
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	}
  
 }
 class Pair{
-	int v;
-	int w;
+	int i;
+	int j;
 	
-	Pair(int v, int w){
-		this.v = v;
-		this.w = w;
+	Pair(int i, int j){
+		this.i = i;
+		this.j = j;
 	}
 }
