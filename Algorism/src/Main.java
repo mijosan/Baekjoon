@@ -1,42 +1,53 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.regex.Pattern;
-//^[0-9]*$ : 숫자만
-//^[가-힣]*$ : 한글만
-//^[a-zA-Z0-9]*$ : 영어/숫자만
+import java.util.StringTokenizer;
+
 public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		// StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		// StringBuilder sb = new StringBuilder();
-		// int n = Integer.parseInt(br.readLine());
+    	// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	// StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	// StringBuilder sb = new StringBuilder();
+    	// int n = Integer.parseInt(br.readLine());
     	
-    	String str = br.readLine();
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
     	
-    	if(Pattern.matches("^[a-zA-Z]*$", str)) {
-    		char[] ch = str.toCharArray();
-    		
-    		Stack<Character> stack = new Stack<Character>();
-    		
-    		for(char i : ch) {
-    			stack.push(i);
+    	int e = Integer.parseInt(st.nextToken());
+    	int s = Integer.parseInt(st.nextToken());
+    	int m = Integer.parseInt(st.nextToken());
+    	
+    	int year = 1;
+    	
+		int e1 = 1, s1 = 1, m1 = 1;
+    	
+    	while(true) {
+    		if(e1 == e && s1 == s && m1 == m) {
+    			break;
     		}
     		
-    		for(int i=0;i<ch.length;i++) {
-    			ch[i] = stack.pop();
+    		e1++; 
+    		s1++; 
+    		m1++; 
+    		
+    		if(e1 > 15) {
+    			e1 = 1;
     		}
     		
-    		str = String.valueOf(ch);
+    		if(s1 > 28) {
+    			s1 = 1;
+    		}
     		
-    		System.out.println(str);
-
-    	}else {
-    		System.out.println("영어가 아닙니다");
+    		if(m1 > 19) {
+    			m1 = 1;
+    		}
+    		
+    		year++;
     	}
-    
+    	
+    	System.out.println(year);
     }
+	
+
 }
