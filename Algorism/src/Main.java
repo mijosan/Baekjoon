@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -9,44 +12,56 @@ public class Main {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     	// StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    	// StringBuilder sb = new StringBuilder();
+    	StringBuilder sb = new StringBuilder();
     	// int n = Integer.parseInt(br.readLine());
+    	ArrayList<Integer> list = new ArrayList<Integer>();
     	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	int n = Integer.parseInt(br.readLine());
     	
-    	int e = Integer.parseInt(st.nextToken());
-    	int s = Integer.parseInt(st.nextToken());
-    	int m = Integer.parseInt(st.nextToken());
-    	
-    	int year = 1;
-    	
-		int e1 = 1, s1 = 1, m1 = 1;
-    	
-    	while(true) {
-    		if(e1 == e && s1 == s && m1 == m) {
-    			break;
+    	for(int i=0;i<n;i++) {
+    		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		String cmd = st.nextToken();
+    		
+    		int value = 0;
+
+    		if(!cmd.equals("all") && !cmd.equals("empty")) {
+    			value = Integer.parseInt(st.nextToken());
     		}
     		
-    		e1++; 
-    		s1++; 
-    		m1++; 
-    		
-    		if(e1 > 15) {
-    			e1 = 1;
+    		if(cmd.equals("add")) {
+    			if(!list.contains(value)) {
+    				list.add(value);
+    			}
+    			
+    		}else if(cmd.equals("remove")) {
+    			if(list.contains(value)) {
+    				list.remove(list.indexOf(value));
+    			}
+    			
+    		}else if(cmd.equals("check")) {
+    			if(list.contains(value)) {
+    				sb.append("1\n");
+    			}else {
+    				sb.append("0\n");
+    			}
+    		}else if(cmd.equals("toggle")) {
+    			if(list.contains(value)) {
+    				list.remove(list.indexOf(value));
+    			}else {
+    				list.add(value);
+    			}
+    			
+    		}else if(cmd.equals("all")) {
+    			list.removeAll(list);
+    			
+    			for(int j=1;j<=20;j++) {
+    				list.add(j);
+    			}
+    		}else if(cmd.equals("empty")) {
+    			list.removeAll(list);
     		}
-    		
-    		if(s1 > 28) {
-    			s1 = 1;
-    		}
-    		
-    		if(m1 > 19) {
-    			m1 = 1;
-    		}
-    		
-    		year++;
     	}
-    	
-    	System.out.println(year);
+    	System.out.println(sb);
     }
 	
 
