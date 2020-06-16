@@ -32,19 +32,21 @@ public class Main {
          } else {
              System.out.println("-1");
          }
+
     	
 	}
 	
 	public static boolean nextPermutation(int[] arr) {
+		//1 5 6 7
+		//4 3 1 2
 		
-		//1 2 3 4
-		//뒤에서부터 탐색하면서 a-1보다 a가 더 큰 경우 찾음
+		//오른쪽 구역
 		int a = arr.length-1;
 		
 		while(a > 0 && arr[a-1] >= arr[a]) a--;
-		if(a <= 0) return false;
+		if(a == 0) return false;
+
 		
-		//다시 뒤에서부터 탐색하며 a-1보다 b가 더 큰 경우 찾음
 		int b = arr.length-1;
 		while(arr[a-1] >= arr[b]) b--;
 		
@@ -56,7 +58,7 @@ public class Main {
 		//a에서부터 끝까지를 오름차순 정렬
 		int start = a;
 		int end = arr.length-1;
-		
+
 		while(start < end) {
 			temp = arr[start];
 			arr[start] = arr[end];
@@ -65,6 +67,7 @@ public class Main {
 			end--;
 		}
 		return true;
+		
 	}
 
 }
