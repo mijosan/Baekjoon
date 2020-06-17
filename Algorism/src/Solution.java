@@ -13,27 +13,23 @@ public class Solution {
 		// StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		// StringBuilder sb = new StringBuilder();
 		// int n = Integer.parseInt(br.readLine());
-    	StringBuilder sb = new StringBuilder();
-    	solution("abcd", sb, 0);
+    	
+    	int[] arr = {4, 3, 2, 1};
+    	
+    	for (int i = 0; i < arr.length-1; i++) {
+            for (int j = i + 1; j < arr.length-(1+i); j++) {
+                if (arr[i] > arr[j]) {
+                    int tmp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+        }
+    	
+    	for(int i=0;i<arr.length;i++) {
+    		System.out.print(arr[i] + " ");
+    	}
     }	
 	
-	public static void solution(String s, StringBuilder sb, int index) {
-
-		for (int i = 1; i < s.length(); i++)
-	    {
-	        // 1) 한 문자 추가
-	        sb.append(s.charAt(i));
-
-	        // 2) 구한 문자조합 출력
-	        System.out.println(sb.toString());
-
-	        // 3) 나머지 문자들에 대한 조합 구하기
-	        solution(s, sb, i + 1);
-
-	        // 위의 1에서 추가한 문자 삭제 
-	        sb.delete(sb.length() - 1, 1);
-	    }
-       
-    }
     
 }
