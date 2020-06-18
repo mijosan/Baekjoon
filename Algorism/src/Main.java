@@ -15,62 +15,60 @@ public class Main {
     	int n = Integer.parseInt(br.readLine());
     	int[] arr = new int[n];
     	
-    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    	
-    	for(int i=0;i<n;i++) {
-    		arr[i] = Integer.parseInt(st.nextToken());
+    	for(int i=0;i<arr.length;i++) {
+    		arr[i] = i+1;
     	}
     	
     	solution(arr);
 	}
 	
 	static void solution(int[] arr) {
-		
-		int a = arr.length-1;
-		
-		boolean flag = false;
-		
-		for(int i=a;i>0;i--) {	
-			if(arr[i] < arr[i-1]) {
-				a = i;
-				flag = true;
-				break;
+		while(true) {
+			for(int i=0;i<arr.length;i++) {
+				System.out.print(arr[i] + " ");
 			}
-		}
-		
-		if(flag == false) {
-			System.out.println(-1);
-			return;
-		}
-		
-		int b = arr.length-1;
-		
-		for(int i=b;i>=a;i--) {		
-			if(arr[i] < arr[a-1]) {
-				b = i;
-				break;
-			}
-		}
-		
-		int temp = arr[b];
-		arr[b] = arr[a-1];
-		arr[a-1] = temp;	
-		
-		int start = a;
-		int end = arr.length-1;
-
-		for(int i=0;i<end-start;i++) {
-			for(int j=start;j<end-i;j++) {	
-				if(arr[j] < arr[j+1]) {
-					int temp2 = arr[j+1];
-					arr[j+1] = arr[j];
-					arr[j] = temp2;
+			System.out.println();
+			
+			int a = arr.length-1;
+			
+			boolean flag = false;
+			for(int i=a;i>0;i--) {	
+				if(arr[i] > arr[i-1]) {
+					a = i;
+					flag = true;
+					break;
 				}
 			}
+			
+			if(flag == false) {
+				break;
+			}
+			
+			int b = arr.length-1;
+			
+			for(int i=b;i>=a;i--) {		
+				if(arr[i] > arr[a-1]) {
+					b = i;
+					break;
+				}
+			}
+			
+			int temp = arr[b];
+			arr[b] = arr[a-1];
+			arr[a-1] = temp;	
+			
+			int start = a;
+			int end = arr.length-1;
+	
+			for(int i=0;i<end-start;i++) {
+				for(int j=start;j<end-i;j++) {	
+					if(arr[j] > arr[j+1]) {
+						int temp2 = arr[j+1];
+						arr[j+1] = arr[j];
+						arr[j] = temp2;
+					}
+				}
+			}		
 		}
-		
-		for(int i=0;i<arr.length;i++) {
-			System.out.print(arr[i] + " ");
-		}	
 	}
 }
