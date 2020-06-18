@@ -31,7 +31,7 @@ public class Main {
 		boolean flag = false;
 		
 		for(int i=a;i>0;i--) {	
-			if(arr[i] > arr[i-1]) {
+			if(arr[i] < arr[i-1]) {
 				a = i;
 				flag = true;
 				break;
@@ -46,7 +46,7 @@ public class Main {
 		int b = arr.length-1;
 		
 		for(int i=b;i>=a;i--) {		
-			if(arr[i] > arr[a-1]) {
+			if(arr[i] < arr[a-1]) {
 				b = i;
 				break;
 			}
@@ -61,7 +61,7 @@ public class Main {
 
 		for(int i=0;i<end-start;i++) {
 			for(int j=start;j<end-i;j++) {	
-				if(arr[j] > arr[j+1]) {
+				if(arr[j] < arr[j+1]) {
 					int temp2 = arr[j+1];
 					arr[j+1] = arr[j];
 					arr[j] = temp2;
