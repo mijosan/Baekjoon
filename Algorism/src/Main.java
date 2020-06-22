@@ -80,7 +80,7 @@ public class Main {
 					queue.add(new Pair(n, o));
 				}
 				
-				if(po[3] > 0) {
+				if(po[3] > 0) { 
 					int n = pn / num[i];
 					int[] o = po.clone();
 					o[3]--;
