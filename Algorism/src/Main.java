@@ -7,7 +7,20 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-
+	static int[] x_move = {0, -1, 0, 1};
+	static int[] y_move = {-1, 0, 1, 0};
+	
+	static int[] hx_move = {-1, -2, -2, -1, 1, 2, 2, 1};
+	static int[] hy_move = {-2, -1, 1, 2, 2, 1, -1, -2};
+	
+	static int[][] map;
+	static int[][][] visited;
+	static int[][] countMap;
+	
+	static int k;
+	static int w;
+	static int h;
+	
 	public static void main(String[] args) throws NumberFormatException, IOException {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -15,56 +28,98 @@ public class Main {
     	// StringBuilder sb = new StringBuilder();
     	// int n = Integer.parseInt(br.readLine());
     	
-    	int t = Integer.parseInt(br.readLine());
+    	k = Integer.parseInt(br.readLine());
     	
-    	for(int i=0;i<t;i++) {
-    		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+    	StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+    	
+    	w = Integer.parseInt(st.nextToken());
+    	h = Integer.parseInt(st.nextToken());
+    	
+    	map = new int[h][w];
+    	countMap = new int[h][w];
+    	
+    	for(int i=0;i<h;i++) {
+    		st = new StringTokenizer(br.readLine(), " ");
     		
-    		int n = Integer.parseInt(st.nextToken());
-    		int m = Integer.parseInt(st.nextToken());
-    		
-    		ArrayList<Integer>[] adjList = new ArrayList[n + 1];
-    		
-    		for(int j=0;j<adjList.length;j++) {
-    			adjList[j] = new ArrayList<Integer>();
+    		for(int j=0;j<w;j++) {
+    			map[i][j] = Integer.parseInt(st.nextToken());
     		}
-    		
-    		for(int j=0;j<m;j++) {
-    			st = new StringTokenizer(br.readLine(), " ");
-    			
-    			int a = Integer.parseInt(st.nextToken());
-    			int b = Integer.parseInt(st.nextToken());
-    			
-    			adjList[a].add(b);
-    			adjList[b].add(a);
-    		}
-    		
-    		int[] visited = new int[n + 1];
-    		int count = 0;
-    		
-    		bfs(adjList, visited, count);
     	}
     	
+    	bfs();
 	}
 	
-	static void bfs(ArrayList<Integer>[] adjList, int[] visited, int count) {
-		Queue<Integer> queue = new LinkedList<Integer>();
-		queue.add(1);
-		visited[1] = 1;
+	static void bfs() {
+		Queue<Pair> queue = new LinkedList<Pair>();
+		queue.add(new Pair(0, 0, k));
+		
+		visited = new int[h][w][k+1];
+		visited[0][0][k] = 1;
+		
+		Boolean flag = false;
 		
 		while(!queue.isEmpty()) {
-			int v = queue.poll();
+			Pair pair = queue.poll();
 			
-			for(int i : adjList[v]) {
-				if(visited[i] == 0) {
-					queue.add(i);
-					visited[i] = 1;
-					count++;
+			int px = pair.x;
+			int py = pair.y;
+			int pk = pair.k;
+			
+			if(px == h-1 && py == w-1) {
+				flag = true;
+				break;
+			}
+			
+			for(int i=0;i<4;i++) {
+				int x = px + x_move[i];
+				int y = py + y_move[i];
+
+				if(x >= 0 && y >= 0 && x < h && y < w) {
+					if(map[x][y] == 0 && visited[x][y][pk] == 0) {
+						countMap[x][y] = countMap[px][py] + 1;
+						visited[x][y][pk] = 1;
+
+						queue.add(new Pair(x, y, pk));
+					}
 				}
 			}
+			
+			if(pk >= 1) {
+				for(int i=0;i<8;i++) { 
+					int x = px + hx_move[i];
+					int y = py + hy_move[i];
+					
+					if(x >= 0 && y >= 0 && x < h && y < w) {
+						if(map[x][y] == 0 && visited[x][y][pk-1] == 0) {
+							countMap[x][y] = countMap[px][py] + 1;
+							visited[x][y][pk-1] = 1;
+							
+							queue.add(new Pair(x, y, pk-1));
+						}
+					}
+				} 
+			}
+			
 		}
-		
-		System.out.println(count);
+
+		if(flag == true) {
+			System.out.println(countMap[h-1][w-1]);
+		}else {
+			System.out.println(-1);
+		}
+	}
+	
+}
+
+class Pair{
+	int x;
+	int y;
+	int k;
+	
+	Pair(int x, int y, int k){
+		this.x = x;
+		this.y = y;
+		this.k = k;
 	}
 }
 
