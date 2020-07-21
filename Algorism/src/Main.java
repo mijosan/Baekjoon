@@ -7,36 +7,29 @@ import java.util.StringTokenizer;
 
 
 public class Main {
-
+	
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         // StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        // StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         // int n = Integer.parseInt(br.readLine());
+        
+        int n = Integer.parseInt(br.readLine());
         
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         
-        int price = Integer.parseInt(st.nextToken());
-        int gram = Integer.parseInt(st.nextToken());
+        int temp = 0;
         
-        int n  = Integer.parseInt(br.readLine());
-        
-        double min = (double)price / gram * 1000;
-        
-        for(int i = 0; i < n; i++) {
-        	st = new StringTokenizer(br.readLine(), " ");
+        for(int i = 1; i <= n; i++) {
+        	int a = Integer.parseInt(st.nextToken());
         	
-        	int price2 = Integer.parseInt(st.nextToken());
-            int gram2 = Integer.parseInt(st.nextToken());
-            
-            double result = (double)price2 / gram2 * 1000;
-            
-            if(min > result) {
-            	min = result;
-            }
+        	int x = (a * i) - temp;
+        	
+        	System.out.print(x + " ");
+        	
+        	temp = temp + x;
         }
-        
-        System.out.println(min);
     }
+
 }
